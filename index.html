@@ -41,7 +41,7 @@ body{
   font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
 }
-.wrap{max-width:1080px;margin:0 auto;padding:0 26px 90px}
+.wrap{max-width:1480px;margin:0 auto;padding:0 26px 90px}
 .col{max-width:66ch}
 h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(2.2rem,5vw,3.3rem);
    line-height:1.04;letter-spacing:-.02em;margin:12px 0 0;text-wrap:balance}
@@ -93,8 +93,11 @@ header.mast{padding:48px 0 0}
 
 /* ---- items ---- */
 .items{margin-top:22px;border-top:1px solid var(--hair)}
-.item{display:grid;grid-template-columns:30px 1fr 118px 178px;gap:14px;align-items:start;
-  padding:14px 0;border-bottom:1px solid var(--hair)}
+.item-head,.item{display:grid;grid-template-columns:30px minmax(300px,1fr) 118px 178px 142px 170px;
+  gap:14px;align-items:start}
+.item-head{padding:0 0 9px;border-bottom:1px solid var(--hair);font-family:"IBM Plex Mono",monospace;
+  font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.item{padding:14px 0;border-bottom:1px solid var(--hair)}
 .item.is-done .txt{color:var(--muted)}
 .item.is-done .txt strong{text-decoration:line-through;text-decoration-thickness:1px}
 .box{width:20px;height:20px;margin-top:2px;border:1.5px solid var(--muted);border-radius:3px;
@@ -144,6 +147,30 @@ header.mast{padding:48px 0 0}
 select{width:100%;font-family:"IBM Plex Sans",sans-serif;font-size:12.5px;color:var(--ink);
   background:var(--surface);border:1px solid var(--hair);border-radius:3px;padding:5px 6px}
 select:disabled{opacity:.55}
+.audit-cell{font-size:11.5px;line-height:1.35;color:var(--muted);padding-top:5px}
+.audit-cell.empty{font-style:italic}
+.file-cell{min-width:0}
+.file-input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.file-btn{display:inline-block;font-family:"IBM Plex Sans",sans-serif;font-size:12px;font-weight:600;
+  color:var(--teal);background:var(--surface);border:1px solid var(--hair);border-radius:3px;
+  padding:5px 8px;cursor:pointer;line-height:1.25}
+.file-btn:hover{border-color:var(--teal)}
+.file-input:disabled + .file-btn{opacity:.55;cursor:not-allowed}
+.file-input:focus-visible + .file-btn{outline:2px solid var(--ochre);outline-offset:2px}
+.file-name{display:block;margin-top:5px;font-size:11px;line-height:1.3;color:var(--muted);
+  overflow-wrap:anywhere}
+.file-remove{border:0;background:none;color:var(--crit);font:inherit;font-size:11px;padding:2px 0;
+  cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.not-needed{display:block;padding-top:5px;color:var(--muted);font-size:12px}
+.storage-note{font-size:12.5px;color:var(--muted);margin:10px 0 0;max-width:78ch}
+.syncrow{display:flex;align-items:center;flex-wrap:wrap;gap:9px 14px;margin-top:13px}
+.syncdot{width:8px;height:8px;border-radius:50%;background:var(--ochre);box-shadow:0 0 0 3px var(--ochre-soft)}
+.syncdot.ok{background:var(--done);box-shadow:0 0 0 3px var(--done-soft)}
+.syncdot.bad{background:var(--crit);box-shadow:0 0 0 3px var(--crit-soft)}
+.synctext{font-size:12.5px;color:var(--muted)}
+.file-link{display:inline-block;margin:5px 8px 0 0;border:0;background:none;color:var(--teal);
+  font:inherit;font-size:11px;font-weight:600;padding:2px 0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.file-link:disabled{opacity:.55;cursor:wait}
 
 /* ---- banner ---- */
 .banner{margin-top:26px;padding:12px 16px;background:var(--ochre-soft);color:var(--ochre);
@@ -154,15 +181,26 @@ footer{margin-top:70px;padding-top:20px;border-top:1.5px solid var(--teal);
   font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
   display:flex;flex-wrap:wrap;gap:8px 26px;letter-spacing:.03em}
 
+@media (max-width:1180px){
+  .item-head{display:none}
+  .item{grid-template-columns:30px minmax(240px,1fr) 118px 178px;gap:12px 14px}
+  .item .updated-cell{grid-column:2}
+  .item .updatedby-cell{grid-column:3}
+  .updated-cell::before,.updatedby-cell::before{display:block;margin-bottom:4px;
+    font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .updated-cell::before{content:"Last updated"}
+  .updatedby-cell::before{content:"Updated by"}
+}
 @media (max-width:760px){
   .item{grid-template-columns:26px 1fr;gap:10px}
-  .item .chip-cell,.item .own-cell{grid-column:2}
-  .own-cell select{max-width:220px}
+  .item .chip-cell,.item .own-cell,.item .updated-cell,.item .updatedby-cell{grid-column:2}
+  .own-cell select,.updatedby-cell select{max-width:260px}
 }
 @media print{
   .addrow{display:none}
   .box{border-color:#666}
   select{border:0;background:none;appearance:none}
+  .file-btn,.file-remove,.file-link{display:none}
   .banner,.explain{background:none}
   .gate{break-inside:avoid}
 }
@@ -183,136 +221,133 @@ footer{margin-top:70px;padding-top:20px;border-top:1.5px solid var(--teal);
 <body>
 <div class="wrap"><div id="app"></div></div>
 <script id="state" type="application/json">{"items":{"g1a":{"done":true,"owner":"Rachel Joy Bodiongan"},"g1b":{"done":false,"owner":"Kim Emissary Magarin"},"g1c":{"done":false,"owner":"Kim Emissary Magarin"},"g1d":{"done":false,"owner":"Elizabeth Albiento"},"g1e":{"done":false,"owner":"Stephanie Albores"},"g1f":{"done":false,"owner":"Peter Suson"},"g1g":{"done":true,"owner":"Fejaycris Pillodar"},"g1h":{"done":true,"owner":"Unassigned"},"g1i":{"done":false,"owner":"Jade Ministerio"},"g1j":{"done":false,"owner":"Fejaycris Pillodar"},"g1k":{"done":false,"owner":"Jade Ministerio"},"g1l":{"done":false,"owner":"Rachel Joy Bodiongan"},"g1m":{"done":false,"owner":"Rachel Joy Bodiongan"},"g2a":{"done":false,"owner":"Elizabeth Albiento"},"g2b":{"done":false,"owner":"Peter Suson"},"g2c":{"done":false,"owner":"Peter Suson"},"g2d":{"done":false,"owner":"Elizabeth Albiento"},"g2e":{"done":false,"owner":"Elizabeth Albiento"},"g2f":{"done":false,"owner":"Peter Suson"},"g2g":{"done":false,"owner":"Elizabeth Albiento"},"g3a":{"done":false,"owner":"Elizabeth Albiento"},"g3b":{"done":false,"owner":"Peter Suson"},"g3c":{"done":false,"owner":"Elizabeth Albiento"},"g3d":{"done":false,"owner":"Peter Suson"},"g3e":{"done":false,"owner":"Peter Suson"},"g3f":{"done":false,"owner":"Elizabeth Albiento"},"g3g":{"done":false,"owner":"Peter Suson"},"g3h":{"done":false,"owner":"Elizabeth Albiento"},"g3i":{"done":false,"owner":"Jade Ministerio"},"g4a":{"done":false,"owner":"Kim Emissary Magarin"},"g4b":{"done":false,"owner":"Kim Emissary Magarin"},"g4c":{"done":false,"owner":"Kim Emissary Magarin"},"g4d":{"done":false,"owner":"Elizabeth Albiento"},"g4e":{"done":false,"owner":"Kim Emissary Magarin"},"g4f":{"done":false,"owner":"Kim Emissary Magarin"},"g4g":{"done":false,"owner":"Kim Emissary Magarin"},"g4h":{"done":false,"owner":"Kim Emissary Magarin"},"g4i":{"done":false,"owner":"Jade Ministerio"},"g4j":{"done":false,"owner":"Kim Emissary Magarin"},"g4k":{"done":false,"owner":"Fejaycris Pillodar"}},"updated":"2026-09-03T03:09:15.709Z"}</script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script id="prog">
 
 (function(){
 "use strict";
 
-var LSKEY = "geosed-dd-checklist-v1";
 var DEFAULT_OWNERS = ["Unassigned","Fejaycris Pillodar","Elizabeth Albiento","Stephanie Albores",
   "Rachel Joy Bodiongan","Kim Emissary Magarin","Jade Ministerio","Peter Suson","Rejen Albores"];
 var MAX_OWNERS = 40, MAX_NAME = 40;
 
 var GATES = [
  { n:"Gate 1", name:"Eligibility check",
-   funder:"Called “Step 1: Eligibility check” in the Guidelines.",
-   who:"RTI International, the Lead Executing Agency",
-   when:"Immediately after the 15 September deadline, on the concept note as submitted.",
-   verdict:"Pass or fail, mechanical. “Proposals with missing or incorrect required information will not move forward.” Nothing can be supplied later.",
+   funder:"",
+   who:"",
+   when:"",
+   verdict:"",
    items:[
     {id:"g1a", sev:"hard", pre:true, t:"CSO with its own legal entity",
-     s:"Satisfied — SEC non-stock, non-profit CN201623741, registered 11 October 2016.", o:"Rachel Joy Bodiongan"},
-    {id:"g1b", sev:"hard", t:"Bank account in the name of the organisation",
-     s:"Obtain written proof. An explicit eligibility requirement and not yet evidenced.", o:"Kim Emissary Magarin"},
-    {id:"g1c", sev:"hard", t:"Authorised to receive charitable contributions from foreign sources",
-     s:"Obtain written confirmation. Also an explicit eligibility requirement and not yet evidenced.", o:"Kim Emissary Magarin"},
+     s:"", o:"Rachel Joy Bodiongan"},
+    {id:"g1b", sev:"hard", f:true, t:"Bank account in the name of the organisation",
+     s:"", o:"Kim Emissary Magarin"},
+    {id:"g1c", sev:"hard", f:true, t:"Authorised to receive charitable contributions from foreign sources",
+     s:"", o:"Kim Emissary Magarin"},
     {id:"g1d", sev:"hard", t:"GeoSED is directly responsible for implementing the project",
-     s:"Check the narrative reads that way throughout. MSU-IIT and the LGUs are partners; the grant cannot pass through us to them.", o:"Elizabeth Albiento"},
-    {id:"g1e", sev:"hard", t:"No conflict of interest across trustees, officers and unit heads",
-     s:"No personal, financial, political or other relationship bearing on this opportunity. Current IUCN or GEF employees and their immediate family are ineligible — confirm and minute it.", o:"Stephanie Albores"},
+     s:"", o:"Elizabeth Albiento"},
+    {id:"g1e", sev:"hard", f:true, t:"No conflict of interest across trustees, officers and unit heads",
+     s:"", o:"Stephanie Albores"},
     {id:"g1f", sev:"hard", t:"Confirm how many proposals GeoSED files as lead",
-     s:"Maximum two as lead partner; only one grant can be received. Decide before submission.", o:"Fejaycris Pillodar"},
+     s:"", o:"Fejaycris Pillodar"},
     {id:"g1g", sev:"hard", pre:true, t:"Project located in a GEF recipient country",
-     s:"Satisfied — Philippines, Asia-Pacific & Oceania region.", o:"Unassigned"},
+     s:"", o:"Unassigned"},
     {id:"g1h", sev:"hard", pre:true, t:"Aligned with at least one SGP 2.0 priority area",
-     s:"Satisfied — community-based management of threatened ecosystems and species.", o:"Unassigned"},
-    {id:"g1i", sev:"hard", t:"Upload: articles of incorporation, registration certificate or bylaws",
-     s:"Held. Confirm the file uploaded is the right one and legible.", o:"Jade Ministerio"},
-    {id:"g1j", sev:"hard", t:"Upload: location map",
-     s:"Google Earth image with visible geo-coordinates and intervention areas demarcated. To produce — and a GeoSED differentiator.", o:"Peter Suson"},
-    {id:"g1k", sev:"hard", t:"Upload: CVs of key project staff",
-     s:"To produce, for every person named in the application.", o:"Jade Ministerio"},
-    {id:"g1l", sev:"flag", t:"Board records match the statutory filings",
-     s:"The GIS on file is 2023 and lists the previous officers. File the updated GIS, or upload Resolution No. 1 alongside it.", o:"Rachel Joy Bodiongan"},
-    {id:"g1m", sev:"flag", t:"Resolution No. 1, Series of 2026 completed and signed",
-     s:"Term of office is blank and the signature blocks are unexecuted. It is meant to be furnished to banks and institutions.", o:"Rachel Joy Bodiongan"}
+     s:"", o:"Unassigned"},
+    {id:"g1i", sev:"hard", f:true, t:"Articles of incorporation, registration certificate or bylaws available",
+     s:"", o:"Jade Ministerio"},
+    {id:"g1j", sev:"hard", f:true, t:"Location map available",
+     s:"", o:"Peter Suson"},
+    {id:"g1k", sev:"hard", f:true, t:"CVs of key project staff available",
+     s:"", o:"Jade Ministerio"},
+    {id:"g1l", sev:"flag", f:true, t:"Board records match the statutory filings",
+     s:"", o:"Rachel Joy Bodiongan"},
+    {id:"g1m", sev:"flag", f:true, t:"Resolution No. 1, Series of 2026 completed and signed",
+     s:"", o:"Rachel Joy Bodiongan"}
    ]},
 
  { n:"Gate 2", name:"ESMS exclusion list",
-   funder:"Section 8 of the Concept Note template: ten excluded activities, answered Y or N.",
-   who:"Declared by us; verified by IUCN before signature",
-   when:"Answered inside the concept note now; checked again during refinement.",
-   verdict:"A “Yes” means the activity cannot go ahead and must be redesigned. This is about the design of the project, not paperwork.",
+   funder:"",
+   who:"",
+   when:"",
+   verdict:"",
    items:[
-    {id:"g2a", sev:"hard", t:"#2 — A credible FPIC pathway exists for the Higaonon ancestral domain",
-     s:"Work where Free, Prior and Informed Consent cannot be established is excluded outright. Open the NCIP conversation before submission, not after award. The single largest exclusion risk in this project.", o:"Elizabeth Albiento"},
+    {id:"g2a", sev:"hard", f:true, t:"#2 — A credible FPIC pathway exists for the Higaonon ancestral domain",
+     s:"", o:"Elizabeth Albiento"},
     {id:"g2b", sev:"hard", t:"#5 — No armed personnel, anywhere in the design",
-     s:"Guardian teams are defined as monitoring and custodianship. Never described as patrols, rangers or enforcement.", o:"Peter Suson"},
+     s:"", o:"Peter Suson"},
     {id:"g2c", sev:"hard", t:"#6 — No involuntary resettlement or forced eviction",
-     s:"Includes customary and ancestral domains. Riparian buffer and management agreements must be voluntary and negotiated.", o:"Peter Suson"},
+     s:"", o:"Peter Suson"},
     {id:"g2d", sev:"hard", t:"#7 — No conversion or degradation of High Conservation Value areas",
-     s:"Confirm no activity alters potentially important biodiversity or critical ecosystems.", o:"Elizabeth Albiento"},
+     s:"", o:"Elizabeth Albiento"},
     {id:"g2e", sev:"hard", t:"#8 — No unsustainable harvesting; nothing CITES-regulated",
-     s:"Covers wildlife, plants, timber and non-timber forest products.", o:"Elizabeth Albiento"},
+     s:"", o:"Elizabeth Albiento"},
     {id:"g2f", sev:"hard", t:"#10 — No alien invasive species",
-     s:"Restoration draws only on endemic species suitability mapping. This is why that method is in the design — protect it in procurement and in the nurseries.", o:"Peter Suson"},
+     s:"", o:"Peter Suson"},
     {id:"g2g", sev:"hard", t:"Items #1, #3, #4 and #9 reviewed and answered No",
-     s:"Illegal activities; IPs in voluntary isolation; forced or harmful child labour; highly hazardous chemicals or pesticides.", o:"Elizabeth Albiento"}
+     s:"", o:"Elizabeth Albiento"}
    ]},
 
  { n:"Gate 3", name:"Environmental and social screening",
-   funder:"The Preliminary Environmental and Social Screening Questionnaire, also Section 8.",
-   who:"Declared by us; reviewed by IUCN",
-   when:"Answered in the concept note; expanded in the full proposal; settled during refinement.",
-   verdict:"A “Yes” does not disqualify — it flags an area for further review. Answering honestly with a named mitigation is stronger than answering No.",
+   funder:"",
+   who:"",
+   when:"",
+   verdict:"",
    items:[
     {id:"g3a", sev:"flag", t:"Gender and gender-based violence",
-     s:"Inclusion measures; monitoring duties must not land on women as unpaid labour; a code of conduct that is actually monitored.", o:"Elizabeth Albiento"},
+     s:"", o:"Elizabeth Albiento"},
     {id:"g3b", sev:"flag", t:"Vulnerable groups and elite capture",
-     s:"Written, transparent beneficiary selection criteria. The questionnaire names elite capture explicitly.", o:"Peter Suson"},
+     s:"", o:"Peter Suson"},
     {id:"g3c", sev:"flag", t:"Human rights and history of conflict in the project area",
-     s:"The questionnaire asks directly whether there is a history of conflict. Answer yes for Lanao, with the assessment and a confidential complaints channel.", o:"Elizabeth Albiento"},
-    {id:"g3d", sev:"flag", t:"Community health, safety and security",
-     s:"Written field safety protocol; weather stand-down rules; no law-enforcement role for guardian teams.", o:"Peter Suson"},
-    {id:"g3e", sev:"flag", t:"Labour and working conditions for guardian teams",
-     s:"The questionnaire names “unclear terms for community volunteers” and “confrontations involving community patrollers” as risk scenarios. Our design sits exactly there — write the terms of engagement and the OHS provisions.", o:"Peter Suson"},
+     s:"", o:"Elizabeth Albiento"},
+    {id:"g3d", sev:"flag", f:true, t:"Community health, safety and security",
+     s:"", o:"Peter Suson"},
+    {id:"g3e", sev:"flag", f:true, t:"Labour and working conditions for guardian teams",
+     s:"", o:"Peter Suson"},
     {id:"g3f", sev:"flag", t:"Climate change sensitivity of outputs",
-     s:"Installations and plantings designed for extreme rainfall; planting phased across two wet seasons.", o:"Elizabeth Albiento"},
+     s:"", o:"Elizabeth Albiento"},
     {id:"g3g", sev:"flag", t:"Standard 1 — access restrictions to natural resources",
-     s:"Riparian protection could restrict access. Keep agreements voluntary, with livelihood substitution.", o:"Peter Suson"},
+     s:"", o:"Peter Suson"},
     {id:"g3h", sev:"flag", t:"Standard 2 — Indigenous Peoples",
-     s:"Declare the ancestral domain overlap and record that legitimate representatives have been consulted. No commercialisation of traditional knowledge without FPIC.", o:"Elizabeth Albiento"},
-    {id:"g3i", sev:"flag", t:"Grievance mechanism",
-     s:"Accessible in local languages, with a confidential route. The questionnaire asks whether people raising concerns could face reprisals.", o:"Jade Ministerio"}
+     s:"", o:"Elizabeth Albiento"},
+    {id:"g3i", sev:"flag", f:true, t:"Grievance mechanism",
+     s:"", o:"Jade Ministerio"}
    ]},
 
  { n:"Gate 4", name:"Financial, procurement and contractual",
-   funder:"The eligible-cost rules, plus “Section 9: Due diligence” in the Full Proposal — whose detailed guidance has not been published yet.",
-   who:"IUCN, before the grant agreement is signed",
-   when:"Shapes the budget we submit now; actually tested in the technical and ESMS refinement, which takes one to five months after selection.",
-   verdict:"Not scored — but nothing is signed until it is satisfied. This is where organisational scale gets examined.",
+   funder:"",
+   who:"",
+   when:"",
+   verdict:"",
    items:[
     {id:"g4a", sev:"later", t:"Read the IUCN Procurement Policy and Procedure for Grant Recipients",
-     s:"On the portal's Useful Documents page. Every cost must be incurred in line with it. We have not read it yet.", o:"Kim Emissary Magarin"},
-    {id:"g4b", sev:"later", t:"Three supplier quotations for anything over USD 20,000",
-     s:"The sensor package crosses this. Quotations must come from different suppliers and be kept with the financial records.", o:"Kim Emissary Magarin"},
+     s:"", o:"Kim Emissary Magarin"},
+    {id:"g4b", sev:"later", f:true, t:"Three supplier quotations for anything over USD 20,000",
+     s:"", o:"Kim Emissary Magarin"},
     {id:"g4c", sev:"hard", t:"Indirect costs at 7% of DIRECT costs, not of the grant total",
-     s:"On USD 187,000 of direct costs the cap is USD 13,090. Taking 7% of the grant total breaches the cap on a line reviewers check.", o:"Kim Emissary Magarin"},
+     s:"", o:"Kim Emissary Magarin"},
     {id:"g4d", sev:"hard", t:"No sub-grants or financial support to third parties",
-     s:"Ineligible. Community support is delivered as goods, services, training and equipment. Check the narrative as well as the budget — nothing may read as a cash transfer to a people's organisation.", o:"Elizabeth Albiento"},
+     s:"", o:"Elizabeth Albiento"},
     {id:"g4e", sev:"hard", t:"No costs promised or incurred before the grant agreement is signed",
-     s:"Pre-award costs are not eligible. Do not commit partners to any spending.", o:"Kim Emissary Magarin"},
+     s:"", o:"Kim Emissary Magarin"},
     {id:"g4f", sev:"later", t:"Accounting able to produce project-level records",
-     s:"Costs must be “actually incurred by and recorded in the accounts of the beneficiary” and be “identifiable and verifiable”. Consider funding an accounting system and part-time bookkeeper from the personnel line.", o:"Kim Emissary Magarin"},
-    {id:"g4g", sev:"flag", t:"2024 and 2025 audited financial statements obtained",
-     s:"The most recent on file is 2023, which understates the organisation as it stands today.", o:"Kim Emissary Magarin"},
-    {id:"g4h", sev:"flag", t:"Bank certification of the current balance obtained",
-     s:"Documents the 2026 position rather than asserting it.", o:"Kim Emissary Magarin"},
+     s:"", o:"Kim Emissary Magarin"},
+    {id:"g4g", sev:"flag", f:true, t:"2024 and 2025 audited financial statements obtained",
+     s:"", o:"Kim Emissary Magarin"},
+    {id:"g4h", sev:"flag", f:true, t:"Bank certification of the current balance obtained",
+     s:"", o:"Kim Emissary Magarin"},
     {id:"g4i", sev:"later", t:"Tax and social legislation compliance current",
-     s:"BIR, SSS, PhilHealth and Pag-IBIG obligations for any staff the project hires. Costs must be compliant with applicable tax and social legislation.", o:"Jade Ministerio"},
+     s:"", o:"Jade Ministerio"},
     {id:"g4j", sev:"hard", t:"Ineligible costs excluded from the budget",
-     s:"Debts and interest; provisions for losses or future liabilities; purchase of land or buildings; reckless or excessive spending.", o:"Kim Emissary Magarin"},
-    {id:"g4k", sev:"flag", t:"Co-financing commitments in writing",
-     s:"Not required, but strongly encouraged and it strengthens the proposal. Iligan City, MSU-IIT, DENR, GeoSED in kind.", o:"Fejaycris Pillodar"}
+     s:"", o:"Kim Emissary Magarin"},
+    {id:"g4k", sev:"flag", f:true, t:"Co-financing commitments in writing",
+     s:"", o:"Fejaycris Pillodar"}
    ]}
 ];
 
-var SEV = {
-  hard:{label:"Hard fail", cls:"hard"},
-  flag:{label:"Flag & fix", cls:"flag"},
-  later:{label:"Before signing", cls:"later"}
-};
-var CLOSED = {label:"Already met", cls:"closed"};
+var AVAILABLE = {label:"Available", cls:"closed"};
+var NOT_AVAILABLE = {label:"Not available", cls:"hard"};
 
 var ALL = [];
 GATES.forEach(function(g){ g.items.forEach(function(it){ ALL.push(it); }); });
@@ -321,17 +356,16 @@ GATES.forEach(function(g){ g.items.forEach(function(it){ ALL.push(it); }); });
 var STATE;
 try { STATE = JSON.parse(document.getElementById("state").textContent) || {}; }
 catch(e){ STATE = {}; }
-try {
-  var LS = localStorage.getItem(LSKEY);
-  if(LS){ var saved = JSON.parse(LS); if(saved && saved.items) STATE = saved; }
-} catch(e){}
 if(!STATE.items) STATE.items = {};
 ALL.forEach(function(it){
   var rec = STATE.items[it.id];
-  if(!rec || typeof rec !== "object") STATE.items[it.id] = {done: !!it.pre, owner: it.o};
+  if(!rec || typeof rec !== "object") STATE.items[it.id] = {done: !!it.pre, owner: it.o, updatedAt:"", updatedBy:"", file:null};
   else {
     if(typeof rec.done !== "boolean") rec.done = !!it.pre;
     if(typeof rec.owner !== "string" || !rec.owner) rec.owner = it.o;
+    if(typeof rec.updatedAt !== "string") rec.updatedAt = "";
+    if(typeof rec.updatedBy !== "string") rec.updatedBy = "";
+    if(!rec.file || typeof rec.file !== "object" || typeof rec.file.name !== "string") rec.file = null;
   }
 });
 
@@ -346,21 +380,22 @@ ALL.forEach(function(it){                 // never orphan an existing assignment
   if(o && STATE.owners.indexOf(o) < 0) STATE.owners.push(o);
 });
 
-var canWrite = true;   // local edits are always allowed
+var canWrite = false;
 var api = null;
+var syncState = "connecting";
+var syncMessage = "Connecting to the shared checklist…";
 
 // ---------- render ----------
 function esc(s){
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 function counts(){
-  var t=0,d=0,hard=0,hardLeft=0;
+  var t=0,d=0;
   ALL.forEach(function(it){
     t++; var r=STATE.items[it.id];
     if(r.done) d++;
-    if(it.sev==="hard"){ hard++; if(!r.done) hardLeft++; }
   });
-  return {total:t, done:d, hard:hard, hardLeft:hardLeft};
+  return {total:t, done:d};
 }
 function stamp(){
   if(!STATE.updated) return "not yet updated";
@@ -368,7 +403,18 @@ function stamp(){
   if(isNaN(dt)) return "not yet updated";
   return dt.toISOString().slice(0,16).replace("T"," ") + " UTC";
 }
-
+function rowStamp(value){
+  if(!value) return "Not updated";
+  var dt = new Date(value);
+  if(isNaN(dt)) return "Not updated";
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"2-digit"
+    }).format(dt);
+  } catch(e){
+    return dt.toISOString().slice(0,16).replace("T"," ") + " UTC";
+  }
+}
 function render(){
   var c = counts();
   var h = "";
@@ -376,39 +422,19 @@ function render(){
   h += '<header class="mast">'
     +  '<div class="kicker">GEF SGP CSO Challenge · GeoSED, Inc.</div>'
     +  '<h1>Due diligence checklist</h1>'
-    +  '<p class="standfirst">Everything that has to be true for GeoSED to pass, grouped by the moment it is checked. Tick items as they are closed.</p>'
+    +  '<p class="standfirst">Confirm whether each required item is available and keep the shared status current.</p>'
     +  '</header>';
 
   h += '<div class="readout">'
     +  cell("Items closed", c.done + " / " + c.total, "", false)
-    +  cell("Hard-fail items open", c.hardLeft + " / " + c.hard, "these end the bid or force a redesign", c.hardLeft>0)
-    +  cell("Concept note due", "15 Sep 2026", "confirm on the portal", true)
     +  cell("Last updated", stamp(), "", false)
     +  '</div>';
 
   // standalone build: no top banner
 
-  h += '<div class="explain"><div class="col">'
-    +  '<h2>What “gate” means here</h2>'
-    +  '<p><strong>Gate is our word, not the funder’s.</strong> The call does not use it. We use it because the four things below are checked by different people, at different moments, against different standards — and failing one does not mean the same thing as failing another. Each gate below names the funder’s own term for it.</p>'
-    +  '<p>Two of the four are decided on the concept note we submit this month. The other two are largely decided later, but the answers we give now commit us, so they belong on this list today.</p>'
-    +  '</div>'
-    +  '<div class="stages">'
-    +  stage("Stage 1 · now", "Concept note", "Submit by 15 September. Gates 1, 2 and 3 are answered here. Gate 4 shapes the budget we submit.", true)
-    +  stage("Stage 2 · if invited", "Full proposal", "Top 20–25 concept notes are invited. Deeper versions of all four gates, plus Section 9, Due diligence — guidance not yet published.", false)
-    +  stage("Stage 3 · if selected", "Before signature", "Technical and ESMS refinement, one to five months. Gate 4 is tested here. Nothing is signed until it clears.", false)
-    +  '</div>'
-    +  '<div class="lgh">What the chips mean</div>'
-    +  '<div class="legend">'
-    +  leg("hard","Hard fail","If this is not true when we submit, the bid is rejected outright or the activity has to be redesigned. There is no chance to fix it later.")
-    +  leg("flag","Flag & fix","Not fatal by itself, but it weakens the application or creates a problem at due diligence. Close it before we submit.")
-    +  leg("later","Before signing","Not needed for the concept note. Must be satisfied during the refinement stage, before the grant agreement is signed.")
-    +  leg("closed","Already met","Ticked. The requirement is satisfied and we can evidence it. Untick to see what was at stake.")
-    +  '</div></div>';
-
   h += '<section class="team">'
     +  '<h2>Team</h2>'
-    +  '<p class="teamp">Anyone on this list can be assigned an item. Add colleagues as they join the bid; removing someone returns their items to Unassigned.</p>'
+    +  '<p class="teamp">Anyone on this list can be assigned an item. Removing someone returns their items to Unassigned.</p>'
     +  '<div class="chipsrow">'
     +  STATE.owners.map(function(o){
          if(o === "Unassigned") return '<span class="mchip fixed">' + esc(o) + '</span>';
@@ -431,26 +457,32 @@ function render(){
       +  '<div class="ghead">'
       +  '<div class="gnum">' + esc(g.n) + ' · ' + gc + ' of ' + g.items.length + ' closed</div>'
       +  '<h2>' + esc(g.name) + '</h2>'
-      +  '<div class="gmeta">'
-      +  '<div class="gm"><b>The funder’s term</b>' + esc(g.funder) + '</div>'
-      +  '<div class="gm"><b>Who checks</b>' + esc(g.who) + '</div>'
-      +  '<div class="gm"><b>When</b>' + esc(g.when) + '</div>'
-      +  '<div class="gm"><b>What failing means</b>' + esc(g.verdict) + '</div>'
-      +  '</div></div>'
+      +  '</div>'
       +  '<div class="items">';
+
+    h += '<div class="item-head" aria-hidden="true">'
+      + '<span></span><span>Requirement</span><span>Status</span><span>Assigned to</span>'
+      + '<span>Last updated</span><span>Updated by</span></div>';
 
     g.items.forEach(function(it){
       var r = STATE.items[it.id];
-      var sv = r.done ? CLOSED : SEV[it.sev];
+      var sv = r.done ? AVAILABLE : NOT_AVAILABLE;
       h += '<div class="item' + (r.done ? " is-done" : "") + '">'
         +  '<button class="box" type="button" data-id="' + esc(it.id) + '" role="checkbox" '
         +  'aria-checked="' + (r.done ? "true" : "false") + '" '
         +  'aria-label="' + esc(it.t) + '"' + (canWrite ? "" : " disabled") + '>✓</button>'
-        +  '<div class="txt"><strong>' + esc(it.t) + '</strong><span>' + esc(it.s) + '</span></div>'
+        +  '<div class="txt"><strong>' + esc(it.t) + '</strong></div>'
         +  '<div class="chip-cell"><span class="chip ' + sv.cls + '">' + esc(sv.label) + '</span></div>'
         +  '<div class="own-cell"><select data-owner="' + esc(it.id) + '"' + (canWrite ? "" : " disabled") + '>'
         +  STATE.owners.map(function(o){
              return '<option value="' + esc(o) + '"' + (o === r.owner ? " selected" : "") + '>' + esc(o) + '</option>';
+           }).join("")
+        +  '</select></div>'
+        +  '<div class="audit-cell updated-cell' + (r.updatedAt ? "" : " empty") + '">' + esc(rowStamp(r.updatedAt)) + '</div>'
+        +  '<div class="updatedby-cell"><select data-updated-by="' + esc(it.id) + '" aria-label="Updated by for ' + esc(it.t) + '"' + (canWrite ? "" : " disabled") + '>'
+        +  '<option value=""' + (r.updatedBy ? "" : " selected") + '>Not specified</option>'
+        +  STATE.owners.filter(function(o){ return o !== "Unassigned"; }).map(function(o){
+             return '<option value="' + esc(o) + '"' + (o === r.updatedBy ? " selected" : "") + '>' + esc(o) + '</option>';
            }).join("")
         +  '</select></div>'
         +  '</div>';
@@ -459,21 +491,19 @@ function render(){
   });
 
   h += '<section class="maint">'
-    +  '<div class="mainth">Maintaining this page</div>'
-    +  '<p class="maintp">Ticks are stored in your own browser. To publish the current position so that everyone '
-    +  'sees it, the checklist owner uses <strong>Download updated page</strong> and replaces <code>index.html</code> '
-    +  'in the repository; everyone else should then use <strong>Reset my ticks</strong> so their local marks do not '
-    +  'sit over the new baseline.</p>'
-    +  '<div class="addrow tools">'
-    +  '<button id="downloadpage" type="button">Download updated page</button>'
-    +  '<button id="copystat" type="button" class="ghost">Copy status</button>'
-    +  '<button id="resetlocal" type="button" class="ghost">Reset my ticks</button>'
-    +  '<span id="copymsg" class="toolmsg"></span>'
-    +  '</div></section>';
+    +  '<div class="mainth">Shared checklist</div>'
+    +  '<p class="maintp">Changes are saved automatically to the shared Supabase database and appear for everyone '
+    +  'using this page.</p>'
+    +  '<div class="syncrow"><span class="syncdot ' + (syncState === "online" ? "ok" : syncState === "error" ? "bad" : "") + '"></span>'
+    +  '<span class="synctext">' + esc(syncMessage) + '</span>'
+    +  '<button id="copystat" type="button" class="file-btn">Copy status</button>'
+    +  '<span id="copymsg" class="toolmsg"></span></div>'
+    +  '<p class="storage-note"><strong>Public access:</strong> no login is required. Anyone who can open the site can '
+    +  'view or change checklist status and assignments.</p></section>';
 
   h += '<footer>'
     +  '<span>GeoSED, Inc. · Bantay Mandulog</span>'
-    +  '<span>Sources: Call for Proposals · Guidelines for Applicants · Concept Note template, Section 8</span>'
+    +  '<span>Public shared status page</span>'
     +  '</footer>';
 
   document.getElementById("app").innerHTML = h;
@@ -486,65 +516,125 @@ function cell(lab, val, sub, hot){
     + '<div class="rval' + (hot ? " hot" : "") + '">' + esc(val) + '</div>'
     + (sub ? '<div class="rsub">' + esc(sub) + '</div>' : "") + '</div>';
 }
-function leg(cls, label, desc){
-  return '<div class="lg"><span class="chip ' + cls + '">' + esc(label) + '</span>'
-    + '<p>' + esc(desc) + '</p></div>';
+// ---------- Supabase data, storage and realtime ----------
+function setSync(state, message, redraw){
+  syncState = state;
+  syncMessage = message;
+  if(redraw !== false) render();
 }
-function stage(n, t, d, now){
-  return '<div class="stage' + (now ? " now" : "") + '"><div class="sn">' + esc(n) + '</div>'
-    + '<div class="st">' + esc(t) + '</div><div class="sd">' + esc(d) + '</div></div>';
+function applyRow(row){
+  if(!row || !STATE.items[row.id]) return;
+  var rec = STATE.items[row.id];
+  rec.done = !!row.done;
+  rec.owner = row.owner || "Unassigned";
+  rec.updatedAt = row.updated_at || "";
+  rec.updatedBy = row.updated_by || "";
+  if(row.updated_at && (!STATE.updated || row.updated_at > STATE.updated)) STATE.updated = row.updated_at;
 }
-
-// ---------- export this page as a committable file ----------
-// Rebuilds the whole standalone document with the current ticks baked in, so a
-// maintainer can replace index.html in the repository and make this state the
-// baseline everyone sees.
-function fullPage(){
-  var progSrc = document.getElementById("prog").textContent;
-  var json = JSON.stringify(STATE).replace(/</g, "\\u003c");
-  var open = "<scr" + "ipt", close = "</scr" + "ipt>";
-  return '<!doctype html>\n<html lang="en">\n<head>' + document.head.innerHTML + '</head>\n<body>\n'
-    + '<div class="wrap"><div id="app"></div></div>\n'
-    + open + ' id="state" type="application/json">' + json + close + '\n'
-    + open + ' id="prog">\n' + progSrc.replace(/<\/script>/gi, "<\\/script>") + '\n' + close + '\n'
-    + '</body>\n</html>\n';
+function itemPayload(id){
+  var rec = STATE.items[id];
+  return {
+    id:id,
+    done:!!rec.done,
+    owner:rec.owner || "Unassigned",
+    updated_by:rec.updatedBy || null
+  };
 }
-function downloadPage(){
-  var msg = document.getElementById("copymsg");
+async function persistItem(id){
+  if(!api || !STATE.items[id]) return false;
+  setSync("connecting", "Saving change…");
+  var result = await api.from("checklist_items").upsert(itemPayload(id), {onConflict:"id"}).select().single();
+  if(result.error){
+    setSync("error", "Could not save: " + result.error.message);
+    return false;
+  }
+  applyRow(result.data);
+  setSync("online", "All changes saved · live updates connected");
+  return true;
+}
+async function seedSharedData(rows, members){
+  var present = {};
+  rows.forEach(function(row){ present[row.id] = true; applyRow(row); });
+  var missing = ALL.filter(function(it){ return !present[it.id]; }).map(function(it){ return itemPayload(it.id); });
+  if(missing.length){
+    var inserted = await api.from("checklist_items").insert(missing).select();
+    if(inserted.error) throw inserted.error;
+    (inserted.data || []).forEach(applyRow);
+  }
+  var names = {};
+  members.forEach(function(row){ if(row.name) names[row.name] = true; });
+  var missingNames = DEFAULT_OWNERS.filter(function(name){ return !names[name]; }).map(function(name){ return {name:name}; });
+  if(missingNames.length){
+    var added = await api.from("team_members").insert(missingNames).select();
+    if(added.error) throw added.error;
+    members = members.concat(added.data || []);
+  }
+  STATE.owners = members.map(function(row){ return row.name; }).filter(Boolean).sort(function(a,b){
+    if(a === "Unassigned") return -1;
+    if(b === "Unassigned") return 1;
+    return a.localeCompare(b);
+  });
+}
+function subscribeRealtime(){
+  api.channel("geosed-dd-live")
+    .on("postgres_changes", {event:"*", schema:"public", table:"checklist_items"}, function(payload){
+      if(payload.new && payload.new.id) applyRow(payload.new);
+      setSync("online", "All changes saved · live updates connected");
+    })
+    .on("postgres_changes", {event:"*", schema:"public", table:"team_members"}, function(){
+      refreshTeam();
+    })
+    .subscribe(function(status){
+      if(status === "SUBSCRIBED") setSync("online", "All changes saved · live updates connected");
+      if(status === "CHANNEL_ERROR" || status === "TIMED_OUT") setSync("error", "Live updates disconnected. Refresh to reconnect.");
+    });
+}
+async function refreshTeam(){
+  if(!api) return;
+  var result = await api.from("team_members").select("name").order("name");
+  if(result.error) return;
+  STATE.owners = result.data.map(function(row){ return row.name; });
+  var u = STATE.owners.indexOf("Unassigned");
+  if(u > 0){ STATE.owners.splice(u,1); STATE.owners.unshift("Unassigned"); }
+  render();
+}
+async function initSupabase(){
+  var cfg = window.GEOSED_CONFIG || {};
+  if(!window.supabase || !cfg.SUPABASE_URL || !cfg.SUPABASE_PUBLISHABLE_KEY
+      || /YOUR-PROJECT/.test(cfg.SUPABASE_URL) || /YOUR-SUPABASE/.test(cfg.SUPABASE_PUBLISHABLE_KEY)){
+    setSync("error", "Setup required: add the Supabase URL and publishable key in config.js");
+    return;
+  }
   try {
-    var blob = new Blob([fullPage()], {type: "text/html;charset=utf-8"});
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = "index.html";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function(){ URL.revokeObjectURL(url); document.body.removeChild(a); }, 0);
-    if(msg) msg.textContent = "Downloaded. Replace index.html in the repository to publish this to the team.";
+    api = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_PUBLISHABLE_KEY);
+    var results = await Promise.all([
+      api.from("checklist_items").select("id,done,owner,updated_at,updated_by"),
+      api.from("team_members").select("name")
+    ]);
+    if(results[0].error) throw results[0].error;
+    if(results[1].error) throw results[1].error;
+    await seedSharedData(results[0].data || [], results[1].data || []);
+    canWrite = true;
+    setSync("online", "All changes saved · live updates connected");
+    subscribeRealtime();
   } catch(e){
-    if(msg) msg.textContent = "Could not build the file in this browser.";
+    canWrite = false;
+    setSync("error", "Could not connect: " + (e && e.message ? e.message : "unknown error"));
   }
 }
-
-function save(){
-  STATE.updated = new Date().toISOString();
-  try { localStorage.setItem(LSKEY, JSON.stringify(STATE)); } catch(e){}
-  var vals = document.querySelectorAll(".rcell .rval");
-  if(vals && vals[3]) vals[3].textContent = stamp();
-}
-
 // a plain-text summary someone can paste into the group chat
 function statusText(){
   var c = counts(), lines = [];
-  lines.push("GeoSED · GEF SGP due diligence — " + c.done + " of " + c.total + " closed, "
-    + c.hardLeft + " of " + c.hard + " hard-fail items still open");
+  lines.push("GeoSED · GEF SGP due diligence — " + c.done + " of " + c.total + " items available");
   lines.push("As at " + stamp());
   GATES.forEach(function(g){
     var open = g.items.filter(function(it){ return !STATE.items[it.id].done; });
     lines.push("");
     lines.push(g.n + " · " + g.name + " — " + (g.items.length - open.length) + " of " + g.items.length + " closed");
     open.forEach(function(it){
-      lines.push("  [ ] " + it.t + "  (" + STATE.items[it.id].owner + ")");
+      var rec = STATE.items[it.id];
+      lines.push("  [ ] " + it.t + "  (" + rec.owner + ")"
+        );
     });
     if(!open.length) lines.push("  all closed");
   });
@@ -569,14 +659,14 @@ function copyStatus(){
 }
 
 // ---------- events ----------
-document.getElementById("app").addEventListener("click", function(e){
+document.getElementById("app").addEventListener("click", async function(e){
   var btn = e.target.closest ? e.target.closest(".box") : null;
   if(!btn || btn.disabled) return;
   var id = btn.getAttribute("data-id");
   if(!STATE.items[id]) return;
   STATE.items[id].done = !STATE.items[id].done;
   render();
-  save();
+  await persistItem(id);
 });
 function ownerError(msg){
   var el = document.getElementById("ownerr");
@@ -584,7 +674,7 @@ function ownerError(msg){
   el.textContent = msg || "";
   el.hidden = !msg;
 }
-function addOwner(){
+async function addOwner(){
   var input = document.getElementById("newown");
   if(!input) return;
   var name = input.value.replace(/\s+/g, " ").trim();
@@ -594,50 +684,66 @@ function addOwner(){
   STATE.owners.forEach(function(o){ if(o.toLowerCase() === name.toLowerCase()) clash = o; });
   if(clash){ ownerError(clash + " is already on the list."); return; }
   if(STATE.owners.length >= MAX_OWNERS){ ownerError("The list is full at " + MAX_OWNERS + " members."); return; }
+  setSync("connecting", "Adding team member…");
+  var result = await api.from("team_members").insert({name:name});
+  if(result.error){ ownerError("Could not add member: " + result.error.message); setSync("error", "Team update failed."); return; }
   STATE.owners.push(name);
-  render();
-  ownerError("");
+  STATE.owners.sort(function(a,b){ if(a === "Unassigned") return -1; if(b === "Unassigned") return 1; return a.localeCompare(b); });
+  setSync("online", "All changes saved · live updates connected");
   var again = document.getElementById("newown");
   if(again) again.focus();
-  save();
 }
-document.getElementById("app").addEventListener("click", function(e){
+async function removeOwner(name){
+  if(!api || name === "Unassigned") return;
+  setSync("connecting", "Removing team member…");
+  var changedOwner = await api.from("checklist_items").update({owner:"Unassigned"}).eq("owner", name);
+  if(changedOwner.error){ setSync("error", "Could not reassign items: " + changedOwner.error.message); return; }
+  var changedUpdater = await api.from("checklist_items").update({updated_by:null}).eq("updated_by", name);
+  if(changedUpdater.error){ setSync("error", "Could not update audit records: " + changedUpdater.error.message); return; }
+  var removed = await api.from("team_members").delete().eq("name", name);
+  if(removed.error){ setSync("error", "Could not remove member: " + removed.error.message); return; }
+  STATE.owners = STATE.owners.filter(function(o){ return o !== name; });
+  ALL.forEach(function(it){
+    if(STATE.items[it.id].owner === name) STATE.items[it.id].owner = "Unassigned";
+    if(STATE.items[it.id].updatedBy === name) STATE.items[it.id].updatedBy = "";
+  });
+  setSync("online", "All changes saved · live updates connected");
+}
+document.getElementById("app").addEventListener("click", async function(e){
   var t = e.target;
-  if(t && t.id === "addown"){ addOwner(); return; }
-  if(t && t.id === "downloadpage"){ downloadPage(); return; }
+  if(t && t.id === "addown"){ await addOwner(); return; }
   if(t && t.id === "copystat"){ copyStatus(); return; }
-  if(t && t.id === "resetlocal"){
-    try { localStorage.removeItem(LSKEY); } catch(e2){}
-    location.reload();
-    return;
-  }
   var rm = t && t.closest ? t.closest("[data-rm]") : null;
   if(!rm || !canWrite) return;
   var name = rm.getAttribute("data-rm");
   var i = STATE.owners.indexOf(name);
   if(i < 0 || name === "Unassigned") return;
-  STATE.owners.splice(i, 1);
-  ALL.forEach(function(it){
-    if(STATE.items[it.id].owner === name) STATE.items[it.id].owner = "Unassigned";
-  });
-  render();
-  ownerError("");
-  save();
+  await removeOwner(name);
 });
 document.getElementById("app").addEventListener("keydown", function(e){
   if(e.key === "Enter" && e.target && e.target.id === "newown"){ e.preventDefault(); addOwner(); }
 });
-document.getElementById("app").addEventListener("change", function(e){
-  var sel = e.target;
-  if(!sel || !sel.getAttribute || !sel.getAttribute("data-owner")) return;
-  var id = sel.getAttribute("data-owner");
-  if(!STATE.items[id]) return;
-  STATE.items[id].owner = sel.value;
-  render();
-  save();
+document.getElementById("app").addEventListener("change", async function(e){
+  var control = e.target;
+  if(!control || !control.getAttribute) return;
+  var id = control.getAttribute("data-owner");
+  if(id && STATE.items[id]){
+    STATE.items[id].owner = control.value;
+    render();
+    await persistItem(id);
+    return;
+  }
+  id = control.getAttribute("data-updated-by");
+  if(id && STATE.items[id]){
+    STATE.items[id].updatedBy = control.value;
+    render();
+    await persistItem(id);
+    return;
+  }
 });
 
 render();
+initSupabase();
 })();
 
 </script>
