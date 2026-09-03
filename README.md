@@ -1,66 +1,70 @@
-# GeoSED — GEF SGP CSO Challenge due diligence checklist
+# GeoSED · GEF SGP due diligence checklist
 
-A single self-contained web page listing everything GeoSED must satisfy to pass the
-GEF SGP CSO Challenge, grouped by the moment each thing is checked.
+This page lists everything GeoSED has to get right to win the GEF Small Grants
+Programme CSO Challenge grant. It is the working checklist for the bid, and it is
+shared so that everyone can see the same picture of where we stand.
 
-`index.html` has no build step and no dependencies. Open it locally, or publish it
-with GitHub Pages and send the team the link.
+**The concept note is due 15 September 2026.** Six grants will be awarded across the
+whole Asia-Pacific region, so nothing on the list is optional detail.
 
-## Publishing with GitHub Pages
+Open the link on a phone or a computer. There is nothing to install and no sign-in.
 
-No command line needed.
+## How the page is organised
 
-1. On github.com, create a new repository — for example `geosed-dd-checklist`.
-2. Choose **uploading an existing file** and drop in `index.html` (and this README).
-3. Open **Settings → Pages**.
-4. Under **Source**, choose **Deploy from a branch**; pick branch `main` and folder `/ (root)`. Save.
-5. Wait a minute or two. The page appears at
-   `https://<your-username>.github.io/<repository-name>/`
+The work is grouped into four **gates**. A gate is simply a moment where somebody
+checks us — and the four are checked by different people, at different times, against
+different standards. The page explains each one at the top of its section: what the
+funder calls it, who does the checking, when it happens, and what failing it costs us.
 
-## How progress actually travels between people
+Every row is one thing that has to be true, with a short note on what it actually
+means and what to do about it.
 
-This is the part worth reading carefully, because it is not what most people assume.
+## What the coloured labels mean
 
-GitHub Pages serves a **static file**. Everyone opening the link downloads the same
-`index.html` and runs it in their own browser. When someone ticks an item, that tick is
-written to their own browser's local storage — it never travels back to GitHub, because
-a static host has nothing to write to. So ticking does **not** publish anything.
+| Label | What it means for you |
+|---|---|
+| **Hard fail** | If this is not true when we submit, the bid is rejected or the activity has to be redesigned. There is no fixing it afterwards. |
+| **Flag & fix** | Not fatal on its own, but it weakens the application or causes trouble later. Close it before we submit. |
+| **Before signing** | Not needed for the concept note. It has to be satisfied later, before any grant agreement is signed. |
+| **Already met** | Done. The requirement is satisfied and we can prove it. |
 
-What everyone sees is whatever `index.html` was last committed. That gives a workflow
-that does work, as long as one person owns it:
+A label turns green and reads **Already met** as soon as the item is ticked.
 
-1. Anyone can open the page and tick their own items. That is theirs alone.
-2. When the position should become official, one person — the checklist owner — clicks
-   **Download updated page**, in the *Maintaining this page* block at the foot of the
-   page. This rebuilds the whole page with the current ticks, owners and roster baked
-   into it, and saves it as `index.html`.
-3. That person replaces `index.html` in the repository (drag and drop on github.com,
-   or commit it).
-4. Within a minute everyone reloading the link sees the new baseline.
+## Finding your own items
 
-Two consequences to plan around. Anyone who has ticked items locally keeps seeing their
-own ticks over the top of the new baseline until they press **Reset my ticks**. And two
-people exporting at once will overwrite each other, so nominate a single owner for
-step 2 — Fejay is the obvious candidate.
+Every row has a name beside it on the right. Scroll for yours — or use your browser's
+find function (Ctrl+F, or Cmd+F on a Mac) and search your surname.
 
-For quick coordination between commits, **Copy status** produces a plain-text summary of
-what is still open and who holds it, ready to paste into the group chat.
+If an item has the wrong name against it, change it. If somebody is missing from the
+list altogether, add them in the **Team** block near the top of the page.
 
-The version inside Claude does share state live across everyone who opens it, with no
-export step — but only for people in the same Claude organisation.
+## When you finish something
 
-## Before you publish
+1. **Tick the box.** The row greys out and the label turns green.
+2. **Tell the rest of us.** This is the part that is easy to forget, and it matters:
+   your tick is saved in *your own browser*, not on a server. Nobody else can see it
+   yet.
 
-A public repository means a public page. Anyone with the link can read it, and it
-records our internal compliance position — items not yet evidenced, the loose ends in
-Resolution No. 1, the note that we have not yet read the IUCN procurement policy. The
-page carries a `noindex` tag so search engines skip it, but that is not access control.
-If that matters, use a private repository (GitHub Pages on private repos needs a paid
-plan) or circulate the file directly instead.
+   Scroll to **Maintaining this page** at the bottom, click **Copy status**, and paste
+   the result into the group chat. It produces a short plain-text summary of what is
+   still open and who holds it.
 
-## Editing the content
+## When the page is refreshed for everyone
 
-The checklist items live in the `GATES` array inside the `<script id="prog">` block, and
-the saved progress in the `<script id="state">` block above it. Editing either by hand
-works, but the page is generated from the live Claude version, so changes made here will
-be lost if it is regenerated.
+Every so often the checklist owner publishes an updated version so the link shows the
+team's real position. When that happens, go to **Maintaining this page** and press
+**Reset my ticks** — otherwise your own older marks keep sitting on top of the new
+version and you will see a different picture from everyone else.
+
+## If something looks wrong
+
+If an item does not belong, or is worded in a way that does not match what we actually
+have to do, say so rather than working around it. The checklist is only useful if it
+describes the real requirements.
+
+The concept note, the detailed project proposal and the members' briefing deck all live
+in the GEF SGP project folder if you want the fuller picture behind any item.
+
+---
+
+*Setting the page up or publishing an update? See `MAINTAINING.md`.*
