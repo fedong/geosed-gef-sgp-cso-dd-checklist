@@ -130,6 +130,14 @@ header.mast{padding:48px 0 0}
 /* ---- team ---- */
 .team{margin-top:46px;border-top:1.5px solid var(--teal);padding-top:16px}
 .teamp{font-size:13.5px;color:var(--muted);max-width:62ch;margin:6px 0 0}
+.identity{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;margin-top:16px;
+  padding:12px 14px;background:var(--surface);border:1px solid var(--hair);border-radius:3px}
+.identity label{font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.identity select{width:auto;min-width:230px;max-width:100%}
+.identity-note{font-size:12.5px;color:var(--muted)}
+.identity-error{flex-basis:100%;font-size:12.5px;color:var(--crit)}
+.identity-error:empty{display:none}
 .chipsrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .mchip{display:inline-flex;align-items:center;gap:7px;font-size:13px;background:var(--surface);
   border:1px solid var(--hair);border-radius:3px;padding:4px 7px 4px 11px}
@@ -197,6 +205,8 @@ footer{margin-top:70px;padding-top:20px;border-top:1.5px solid var(--teal);
   .item{grid-template-columns:26px 1fr;gap:10px}
   .item .chip-cell,.item .own-cell,.item .updated-cell,.item .updatedby-cell{grid-column:2}
   .own-cell select,.updatedby-cell select{max-width:260px}
+  .identity{align-items:flex-start}
+  .identity label,.identity select,.identity-note{width:100%}
 }
 @media print{
   .addrow{display:none}
@@ -233,6 +243,7 @@ footer{margin-top:70px;padding-top:20px;border-top:1.5px solid var(--teal);
 var DEFAULT_OWNERS = ["Unassigned","Fejaycris Pillodar","Elizabeth Albiento","Stephanie Albores",
   "Rachel Joy Bodiongan","Kim Emissary Magarin","Jade Ministerio","Peter Suson","Rejen Albores"];
 var MAX_OWNERS = 40, MAX_NAME = 40;
+var USER_KEY = "geosed-dd-current-user-v1";
 
 var GATES = [
  { n:"Gate 1", name:"Eligibility check",
@@ -386,6 +397,10 @@ ALL.forEach(function(it){                 // never orphan an existing assignment
   if(o && STATE.owners.indexOf(o) < 0) STATE.owners.push(o);
 });
 
+var currentUser = "";
+try { currentUser = localStorage.getItem(USER_KEY) || ""; } catch(e){}
+if(currentUser === "Unassigned" || STATE.owners.indexOf(currentUser) < 0) currentUser = "";
+
 var canWrite = false;
 var api = null;
 var syncState = "connecting";
@@ -425,6 +440,29 @@ function rowStamp(value){
     return dt.toISOString().slice(0,16).replace("T"," ") + " UTC";
   }
 }
+function saveCurrentUser(){
+  try {
+    if(currentUser) localStorage.setItem(USER_KEY, currentUser);
+    else localStorage.removeItem(USER_KEY);
+  } catch(e){}
+}
+function ensureCurrentUserValid(){
+  if(currentUser === "Unassigned" || STATE.owners.indexOf(currentUser) < 0){
+    currentUser = "";
+    saveCurrentUser();
+  }
+}
+function identityError(message){
+  var el = document.getElementById("identityerr");
+  if(el) el.textContent = message || "";
+}
+function requireCurrentUser(){
+  if(currentUser) return true;
+  identityError("Select your name before changing the checklist.");
+  var select = document.getElementById("currentuser");
+  if(select) select.focus();
+  return false;
+}
 function render(){
   var c = counts();
   var h = "";
@@ -463,6 +501,17 @@ function render(){
   h += '<section class="team">'
     +  '<h2>Team</h2>'
     +  '<p class="teamp">Anyone on this list can be assigned an item. Add colleagues as they join the bid; removing someone returns their items to Unassigned.</p>'
+    +  '<div class="identity">'
+    +  '<label for="currentuser">I am updating as</label>'
+    +  '<select id="currentuser"' + (canWrite ? "" : " disabled") + '>'
+    +  '<option value=""' + (currentUser ? "" : " selected") + '>Select your name</option>'
+    +  STATE.owners.filter(function(o){ return o !== "Unassigned"; }).map(function(o){
+         return '<option value="' + esc(o) + '"' + (o === currentUser ? " selected" : "") + '>' + esc(o) + '</option>';
+       }).join("")
+    +  '</select>'
+    +  '<span class="identity-note">Your choice is remembered on this device and recorded automatically when you change an item. This identifies edits but is not a verified login.</span>'
+    +  '<span id="identityerr" class="identity-error"></span>'
+    +  '</div>'
     +  '<div class="chipsrow">'
     +  STATE.owners.map(function(o){
          if(o === "Unassigned") return '<span class="mchip fixed">' + esc(o) + '</span>';
@@ -513,12 +562,7 @@ function render(){
            }).join("")
         +  '</select></div>'
         +  '<div class="audit-cell updated-cell' + (r.updatedAt ? "" : " empty") + '">' + esc(rowStamp(r.updatedAt)) + '</div>'
-        +  '<div class="updatedby-cell"><select data-updated-by="' + esc(it.id) + '" aria-label="Updated by for ' + esc(it.t) + '"' + (canWrite ? "" : " disabled") + '>'
-        +  '<option value=""' + (r.updatedBy ? "" : " selected") + '>Not specified</option>'
-        +  STATE.owners.filter(function(o){ return o !== "Unassigned"; }).map(function(o){
-             return '<option value="' + esc(o) + '"' + (o === r.updatedBy ? " selected" : "") + '>' + esc(o) + '</option>';
-           }).join("")
-        +  '</select></div>'
+        +  '<div class="audit-cell updatedby-cell' + (r.updatedBy ? "" : " empty") + '">' + esc(r.updatedBy || "Not specified") + '</div>'
         +  '</div>';
     });
     h += '</div></section>';
@@ -616,6 +660,7 @@ async function seedSharedData(rows, members){
     if(b === "Unassigned") return 1;
     return a.localeCompare(b);
   });
+  ensureCurrentUserValid();
 }
 function subscribeRealtime(){
   api.channel("geosed-dd-live")
@@ -638,6 +683,7 @@ async function refreshTeam(){
   STATE.owners = result.data.map(function(row){ return row.name; });
   var u = STATE.owners.indexOf("Unassigned");
   if(u > 0){ STATE.owners.splice(u,1); STATE.owners.unshift("Unassigned"); }
+  ensureCurrentUserValid();
   render();
 }
 async function initSupabase(){
@@ -707,7 +753,9 @@ document.getElementById("app").addEventListener("click", async function(e){
   if(!btn || btn.disabled) return;
   var id = btn.getAttribute("data-id");
   if(!STATE.items[id]) return;
+  if(!requireCurrentUser()) return;
   STATE.items[id].done = !STATE.items[id].done;
+  STATE.items[id].updatedBy = currentUser;
   render();
   await persistItem(id);
 });
@@ -750,6 +798,10 @@ async function removeOwner(name){
     if(STATE.items[it.id].owner === name) STATE.items[it.id].owner = "Unassigned";
     if(STATE.items[it.id].updatedBy === name) STATE.items[it.id].updatedBy = "";
   });
+  if(currentUser === name){
+    currentUser = "";
+    saveCurrentUser();
+  }
   setSync("online", "All changes saved · live updates connected");
 }
 document.getElementById("app").addEventListener("click", async function(e){
@@ -769,16 +821,17 @@ document.getElementById("app").addEventListener("keydown", function(e){
 document.getElementById("app").addEventListener("change", async function(e){
   var control = e.target;
   if(!control || !control.getAttribute) return;
-  var id = control.getAttribute("data-owner");
-  if(id && STATE.items[id]){
-    STATE.items[id].owner = control.value;
-    render();
-    await persistItem(id);
+  if(control.id === "currentuser"){
+    currentUser = control.value;
+    saveCurrentUser();
+    identityError("");
     return;
   }
-  id = control.getAttribute("data-updated-by");
+  var id = control.getAttribute("data-owner");
   if(id && STATE.items[id]){
-    STATE.items[id].updatedBy = control.value;
+    if(!currentUser){ render(); requireCurrentUser(); return; }
+    STATE.items[id].owner = control.value;
+    STATE.items[id].updatedBy = currentUser;
     render();
     await persistItem(id);
     return;
