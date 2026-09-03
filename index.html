@@ -110,6 +110,12 @@ header.mast{padding:48px 0 0}
 .txt{font-size:14.5px;line-height:1.5}
 .txt strong{font-weight:600}
 .txt span{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.txt .reqtype{display:inline-block;margin:6px 8px 0 0;font-family:"IBM Plex Mono",monospace;
+  font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.txt .reqtype.hard{color:var(--crit)}
+.txt .reqtype.flag{color:var(--ochre)}
+.txt .reqtype.later{color:var(--teal)}
+.txt .detail{margin-top:4px}
 .chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.09em;
   text-transform:uppercase;padding:4px 7px;border:1px solid transparent;border-radius:2px;
   font-weight:600;white-space:nowrap}
@@ -234,120 +240,125 @@ var MAX_OWNERS = 40, MAX_NAME = 40;
 
 var GATES = [
  { n:"Gate 1", name:"Eligibility check",
-   funder:"",
-   who:"",
-   when:"",
-   verdict:"",
+   funder:"Called “Step 1: Eligibility check” in the Guidelines.",
+   who:"RTI International, the Lead Executing Agency",
+   when:"Immediately after the 15 September deadline, on the concept note as submitted.",
+   verdict:"Pass or fail, mechanical. “Proposals with missing or incorrect required information will not move forward.” Nothing can be supplied later.",
    items:[
     {id:"g1a", sev:"hard", pre:true, t:"CSO with its own legal entity",
-     s:"", o:"Rachel Joy Bodiongan"},
+     s:"Satisfied — SEC non-stock, non-profit CN201623741, registered 11 October 2016.", o:"Rachel Joy Bodiongan"},
     {id:"g1b", sev:"hard", f:true, t:"Bank account in the name of the organisation",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"Obtain written proof. An explicit eligibility requirement and not yet evidenced.", o:"Kim Emissary Magarin"},
     {id:"g1c", sev:"hard", f:true, t:"Authorised to receive charitable contributions from foreign sources",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"Obtain written confirmation. Also an explicit eligibility requirement and not yet evidenced.", o:"Kim Emissary Magarin"},
     {id:"g1d", sev:"hard", t:"GeoSED is directly responsible for implementing the project",
-     s:"", o:"Elizabeth Albiento"},
+     s:"Check the narrative reads that way throughout. MSU-IIT and the LGUs are partners; the grant cannot pass through us to them.", o:"Elizabeth Albiento"},
     {id:"g1e", sev:"hard", f:true, t:"No conflict of interest across trustees, officers and unit heads",
-     s:"", o:"Stephanie Albores"},
+     s:"No personal, financial, political or other relationship bearing on this opportunity. Current IUCN or GEF employees and their immediate family are ineligible — confirm and minute it.", o:"Stephanie Albores"},
     {id:"g1f", sev:"hard", t:"Confirm how many proposals GeoSED files as lead",
-     s:"", o:"Fejaycris Pillodar"},
+     s:"Maximum two as lead partner; only one grant can be received. Decide before submission.", o:"Fejaycris Pillodar"},
     {id:"g1g", sev:"hard", pre:true, t:"Project located in a GEF recipient country",
-     s:"", o:"Unassigned"},
+     s:"Satisfied — Philippines, Asia-Pacific & Oceania region.", o:"Unassigned"},
     {id:"g1h", sev:"hard", pre:true, t:"Aligned with at least one SGP 2.0 priority area",
-     s:"", o:"Unassigned"},
+     s:"Satisfied — community-based management of threatened ecosystems and species.", o:"Unassigned"},
     {id:"g1i", sev:"hard", f:true, t:"Articles of incorporation, registration certificate or bylaws available",
-     s:"", o:"Jade Ministerio"},
+     s:"Held. Confirm the file on hand is the right one and legible.", o:"Jade Ministerio"},
     {id:"g1j", sev:"hard", f:true, t:"Location map available",
-     s:"", o:"Peter Suson"},
+     s:"Google Earth image with visible geo-coordinates and intervention areas demarcated. To produce — and a GeoSED differentiator.", o:"Peter Suson"},
     {id:"g1k", sev:"hard", f:true, t:"CVs of key project staff available",
-     s:"", o:"Jade Ministerio"},
+     s:"To produce, for every person named in the application.", o:"Jade Ministerio"},
     {id:"g1l", sev:"flag", f:true, t:"Board records match the statutory filings",
-     s:"", o:"Rachel Joy Bodiongan"},
+     s:"The GIS on file is 2023 and lists the previous officers. File the updated GIS, or provide Resolution No. 1 alongside it.", o:"Rachel Joy Bodiongan"},
     {id:"g1m", sev:"flag", f:true, t:"Resolution No. 1, Series of 2026 completed and signed",
-     s:"", o:"Rachel Joy Bodiongan"}
+     s:"Term of office is blank and the signature blocks are unexecuted. It is meant to be furnished to banks and institutions.", o:"Rachel Joy Bodiongan"}
    ]},
 
  { n:"Gate 2", name:"ESMS exclusion list",
-   funder:"",
-   who:"",
-   when:"",
-   verdict:"",
+   funder:"Section 8 of the Concept Note template: ten excluded activities, answered Y or N.",
+   who:"Declared by us; verified by IUCN before signature",
+   when:"Answered inside the concept note now; checked again during refinement.",
+   verdict:"A “Yes” means the activity cannot go ahead and must be redesigned. This is about the design of the project, not paperwork.",
    items:[
     {id:"g2a", sev:"hard", f:true, t:"#2 — A credible FPIC pathway exists for the Higaonon ancestral domain",
-     s:"", o:"Elizabeth Albiento"},
+     s:"Work where Free, Prior and Informed Consent cannot be established is excluded outright. Open the NCIP conversation before submission, not after award. The single largest exclusion risk in this project.", o:"Elizabeth Albiento"},
     {id:"g2b", sev:"hard", t:"#5 — No armed personnel, anywhere in the design",
-     s:"", o:"Peter Suson"},
+     s:"Guardian teams are defined as monitoring and custodianship. Never described as patrols, rangers or enforcement.", o:"Peter Suson"},
     {id:"g2c", sev:"hard", t:"#6 — No involuntary resettlement or forced eviction",
-     s:"", o:"Peter Suson"},
+     s:"Includes customary and ancestral domains. Riparian buffer and management agreements must be voluntary and negotiated.", o:"Peter Suson"},
     {id:"g2d", sev:"hard", t:"#7 — No conversion or degradation of High Conservation Value areas",
-     s:"", o:"Elizabeth Albiento"},
+     s:"Confirm no activity alters potentially important biodiversity or critical ecosystems.", o:"Elizabeth Albiento"},
     {id:"g2e", sev:"hard", t:"#8 — No unsustainable harvesting; nothing CITES-regulated",
-     s:"", o:"Elizabeth Albiento"},
+     s:"Covers wildlife, plants, timber and non-timber forest products.", o:"Elizabeth Albiento"},
     {id:"g2f", sev:"hard", t:"#10 — No alien invasive species",
-     s:"", o:"Peter Suson"},
+     s:"Restoration draws only on endemic species suitability mapping. This is why that method is in the design — protect it in procurement and in the nurseries.", o:"Peter Suson"},
     {id:"g2g", sev:"hard", t:"Items #1, #3, #4 and #9 reviewed and answered No",
-     s:"", o:"Elizabeth Albiento"}
+     s:"Illegal activities; IPs in voluntary isolation; forced or harmful child labour; highly hazardous chemicals or pesticides.", o:"Elizabeth Albiento"}
    ]},
 
  { n:"Gate 3", name:"Environmental and social screening",
-   funder:"",
-   who:"",
-   when:"",
-   verdict:"",
+   funder:"The Preliminary Environmental and Social Screening Questionnaire, also Section 8.",
+   who:"Declared by us; reviewed by IUCN",
+   when:"Answered in the concept note; expanded in the full proposal; settled during refinement.",
+   verdict:"A “Yes” does not disqualify — it flags an area for further review. Answering honestly with a named mitigation is stronger than answering No.",
    items:[
     {id:"g3a", sev:"flag", t:"Gender and gender-based violence",
-     s:"", o:"Elizabeth Albiento"},
+     s:"Inclusion measures; monitoring duties must not land on women as unpaid labour; a code of conduct that is actually monitored.", o:"Elizabeth Albiento"},
     {id:"g3b", sev:"flag", t:"Vulnerable groups and elite capture",
-     s:"", o:"Peter Suson"},
+     s:"Written, transparent beneficiary selection criteria. The questionnaire names elite capture explicitly.", o:"Peter Suson"},
     {id:"g3c", sev:"flag", t:"Human rights and history of conflict in the project area",
-     s:"", o:"Elizabeth Albiento"},
+     s:"The questionnaire asks directly whether there is a history of conflict. Answer yes for Lanao, with the assessment and a confidential complaints channel.", o:"Elizabeth Albiento"},
     {id:"g3d", sev:"flag", f:true, t:"Community health, safety and security",
-     s:"", o:"Peter Suson"},
+     s:"Written field safety protocol; weather stand-down rules; no law-enforcement role for guardian teams.", o:"Peter Suson"},
     {id:"g3e", sev:"flag", f:true, t:"Labour and working conditions for guardian teams",
-     s:"", o:"Peter Suson"},
+     s:"The questionnaire names “unclear terms for community volunteers” and “confrontations involving community patrollers” as risk scenarios. Our design sits exactly there — write the terms of engagement and the OHS provisions.", o:"Peter Suson"},
     {id:"g3f", sev:"flag", t:"Climate change sensitivity of outputs",
-     s:"", o:"Elizabeth Albiento"},
+     s:"Installations and plantings designed for extreme rainfall; planting phased across two wet seasons.", o:"Elizabeth Albiento"},
     {id:"g3g", sev:"flag", t:"Standard 1 — access restrictions to natural resources",
-     s:"", o:"Peter Suson"},
+     s:"Riparian protection could restrict access. Keep agreements voluntary, with livelihood substitution.", o:"Peter Suson"},
     {id:"g3h", sev:"flag", t:"Standard 2 — Indigenous Peoples",
-     s:"", o:"Elizabeth Albiento"},
+     s:"Declare the ancestral domain overlap and record that legitimate representatives have been consulted. No commercialisation of traditional knowledge without FPIC.", o:"Elizabeth Albiento"},
     {id:"g3i", sev:"flag", f:true, t:"Grievance mechanism",
-     s:"", o:"Jade Ministerio"}
+     s:"Accessible in local languages, with a confidential route. The questionnaire asks whether people raising concerns could face reprisals.", o:"Jade Ministerio"}
    ]},
 
  { n:"Gate 4", name:"Financial, procurement and contractual",
-   funder:"",
-   who:"",
-   when:"",
-   verdict:"",
+   funder:"The eligible-cost rules, plus “Section 9: Due diligence” in the Full Proposal — whose detailed guidance has not been published yet.",
+   who:"IUCN, before the grant agreement is signed",
+   when:"Shapes the budget we submit now; actually tested in the technical and ESMS refinement, which takes one to five months after selection.",
+   verdict:"Not scored — but nothing is signed until it is satisfied. This is where organisational scale gets examined.",
    items:[
     {id:"g4a", sev:"later", t:"Read the IUCN Procurement Policy and Procedure for Grant Recipients",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"On the portal's Useful Documents page. Every cost must be incurred in line with it. We have not read it yet.", o:"Kim Emissary Magarin"},
     {id:"g4b", sev:"later", f:true, t:"Three supplier quotations for anything over USD 20,000",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"The sensor package crosses this. Quotations must come from different suppliers and be kept with the financial records.", o:"Kim Emissary Magarin"},
     {id:"g4c", sev:"hard", t:"Indirect costs at 7% of DIRECT costs, not of the grant total",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"On USD 187,000 of direct costs the cap is USD 13,090. Taking 7% of the grant total breaches the cap on a line reviewers check.", o:"Kim Emissary Magarin"},
     {id:"g4d", sev:"hard", t:"No sub-grants or financial support to third parties",
-     s:"", o:"Elizabeth Albiento"},
+     s:"Ineligible. Community support is delivered as goods, services, training and equipment. Check the narrative as well as the budget — nothing may read as a cash transfer to a people's organisation.", o:"Elizabeth Albiento"},
     {id:"g4e", sev:"hard", t:"No costs promised or incurred before the grant agreement is signed",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"Pre-award costs are not eligible. Do not commit partners to any spending.", o:"Kim Emissary Magarin"},
     {id:"g4f", sev:"later", t:"Accounting able to produce project-level records",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"Costs must be “actually incurred by and recorded in the accounts of the beneficiary” and be “identifiable and verifiable”. Consider funding an accounting system and part-time bookkeeper from the personnel line.", o:"Kim Emissary Magarin"},
     {id:"g4g", sev:"flag", f:true, t:"2024 and 2025 audited financial statements obtained",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"The most recent on file is 2023, which understates the organisation as it stands today.", o:"Kim Emissary Magarin"},
     {id:"g4h", sev:"flag", f:true, t:"Bank certification of the current balance obtained",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"Documents the 2026 position rather than asserting it.", o:"Kim Emissary Magarin"},
     {id:"g4i", sev:"later", t:"Tax and social legislation compliance current",
-     s:"", o:"Jade Ministerio"},
+     s:"BIR, SSS, PhilHealth and Pag-IBIG obligations for any staff the project hires. Costs must be compliant with applicable tax and social legislation.", o:"Jade Ministerio"},
     {id:"g4j", sev:"hard", t:"Ineligible costs excluded from the budget",
-     s:"", o:"Kim Emissary Magarin"},
+     s:"Debts and interest; provisions for losses or future liabilities; purchase of land or buildings; reckless or excessive spending.", o:"Kim Emissary Magarin"},
     {id:"g4k", sev:"flag", f:true, t:"Co-financing commitments in writing",
-     s:"", o:"Fejaycris Pillodar"}
+     s:"Not required, but strongly encouraged and it strengthens the proposal. Iligan City, MSU-IIT, DENR, GeoSED in kind.", o:"Fejaycris Pillodar"}
    ]}
 ];
 
 var AVAILABLE = {label:"Available", cls:"closed"};
 var NOT_AVAILABLE = {label:"Not available", cls:"hard"};
+var REQUIREMENT_TYPE = {
+  hard:{label:"Hard fail", cls:"hard"},
+  flag:{label:"Flag & fix", cls:"flag"},
+  later:{label:"Before signing", cls:"later"}
+};
 
 var ALL = [];
 GATES.forEach(function(g){ g.items.forEach(function(it){ ALL.push(it); }); });
@@ -390,12 +401,16 @@ function esc(s){
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 function counts(){
-  var t=0,d=0;
+  var t=0,d=0,hard=0,hardLeft=0;
   ALL.forEach(function(it){
     t++; var r=STATE.items[it.id];
     if(r.done) d++;
+    if(it.sev === "hard"){
+      hard++;
+      if(!r.done) hardLeft++;
+    }
   });
-  return {total:t, done:d};
+  return {total:t, done:d, hard:hard, hardLeft:hardLeft};
 }
 function stamp(){
   if(!STATE.updated) return "not yet updated";
@@ -422,19 +437,37 @@ function render(){
   h += '<header class="mast">'
     +  '<div class="kicker">GEF SGP CSO Challenge · GeoSED, Inc.</div>'
     +  '<h1>Due diligence checklist</h1>'
-    +  '<p class="standfirst">Confirm whether each required item is available and keep the shared status current.</p>'
+    +  '<p class="standfirst">Everything that has to be true for GeoSED to pass, grouped by the moment it is checked. Confirm whether each item is available and keep the shared status current.</p>'
     +  '</header>';
 
   h += '<div class="readout">'
     +  cell("Items closed", c.done + " / " + c.total, "", false)
+    +  cell("Hard-fail items open", c.hardLeft + " / " + c.hard, "these end the bid or force a redesign", c.hardLeft>0)
+    +  cell("Concept note due", "15 Sep 2026", "confirm on the portal", true)
     +  cell("Last updated", stamp(), "", false)
     +  '</div>';
 
-  // standalone build: no top banner
+  h += '<div class="explain"><div class="col">'
+    +  '<h2>What “gate” means here</h2>'
+    +  '<p><strong>Gate is our word, not the funder’s.</strong> The call does not use it. We use it because the four things below are checked by different people, at different moments, against different standards — and failing one does not mean the same thing as failing another. Each gate below names the funder’s own term for it.</p>'
+    +  '<p>Two of the four are decided on the concept note we submit this month. The other two are largely decided later, but the answers we give now commit us, so they belong on this list today.</p>'
+    +  '</div>'
+    +  '<div class="stages">'
+    +  stage("Stage 1 · now", "Concept note", "Submit by 15 September. Gates 1, 2 and 3 are answered here. Gate 4 shapes the budget we submit.", true)
+    +  stage("Stage 2 · if invited", "Full proposal", "Top 20–25 concept notes are invited. Deeper versions of all four gates, plus Section 9, Due diligence — guidance not yet published.", false)
+    +  stage("Stage 3 · if selected", "Before signature", "Technical and ESMS refinement, one to five months. Gate 4 is tested here. Nothing is signed until it clears.", false)
+    +  '</div>'
+    +  '<div class="lgh">Requirement types and shared status</div>'
+    +  '<div class="legend">'
+    +  leg("hard","Hard fail","If this is not true when we submit, the bid is rejected outright or the activity has to be redesigned.")
+    +  leg("flag","Flag & fix","Not fatal by itself, but it weakens the application or creates a due-diligence problem.")
+    +  leg("later","Before signing","Not needed for the concept note, but must be satisfied before the grant agreement is signed.")
+    +  leg("closed","Available","The team has confirmed that the requirement or supporting information is available.")
+    +  '</div></div>';
 
   h += '<section class="team">'
     +  '<h2>Team</h2>'
-    +  '<p class="teamp">Anyone on this list can be assigned an item. Removing someone returns their items to Unassigned.</p>'
+    +  '<p class="teamp">Anyone on this list can be assigned an item. Add colleagues as they join the bid; removing someone returns their items to Unassigned.</p>'
     +  '<div class="chipsrow">'
     +  STATE.owners.map(function(o){
          if(o === "Unassigned") return '<span class="mchip fixed">' + esc(o) + '</span>';
@@ -457,7 +490,12 @@ function render(){
       +  '<div class="ghead">'
       +  '<div class="gnum">' + esc(g.n) + ' · ' + gc + ' of ' + g.items.length + ' closed</div>'
       +  '<h2>' + esc(g.name) + '</h2>'
-      +  '</div>'
+      +  '<div class="gmeta">'
+      +  '<div class="gm"><b>The funder’s term</b>' + esc(g.funder) + '</div>'
+      +  '<div class="gm"><b>Who checks</b>' + esc(g.who) + '</div>'
+      +  '<div class="gm"><b>When</b>' + esc(g.when) + '</div>'
+      +  '<div class="gm"><b>What failing means</b>' + esc(g.verdict) + '</div>'
+      +  '</div></div>'
       +  '<div class="items">';
 
     h += '<div class="item-head" aria-hidden="true">'
@@ -467,11 +505,14 @@ function render(){
     g.items.forEach(function(it){
       var r = STATE.items[it.id];
       var sv = r.done ? AVAILABLE : NOT_AVAILABLE;
+      var rt = REQUIREMENT_TYPE[it.sev];
       h += '<div class="item' + (r.done ? " is-done" : "") + '">'
         +  '<button class="box" type="button" data-id="' + esc(it.id) + '" role="checkbox" '
         +  'aria-checked="' + (r.done ? "true" : "false") + '" '
         +  'aria-label="' + esc(it.t) + '"' + (canWrite ? "" : " disabled") + '>✓</button>'
-        +  '<div class="txt"><strong>' + esc(it.t) + '</strong></div>'
+        +  '<div class="txt"><strong>' + esc(it.t) + '</strong>'
+        +  '<span class="reqtype ' + esc(rt.cls) + '">' + esc(rt.label) + '</span>'
+        +  '<span class="detail">' + esc(it.s) + '</span></div>'
         +  '<div class="chip-cell"><span class="chip ' + sv.cls + '">' + esc(sv.label) + '</span></div>'
         +  '<div class="own-cell"><select data-owner="' + esc(it.id) + '"' + (canWrite ? "" : " disabled") + '>'
         +  STATE.owners.map(function(o){
@@ -503,7 +544,7 @@ function render(){
 
   h += '<footer>'
     +  '<span>GeoSED, Inc. · Bantay Mandulog</span>'
-    +  '<span>Public shared status page</span>'
+    +  '<span>Sources: Call for Proposals · Guidelines for Applicants · Concept Note template, Section 8</span>'
     +  '</footer>';
 
   document.getElementById("app").innerHTML = h;
@@ -515,6 +556,14 @@ function cell(lab, val, sub, hot){
   return '<div class="rcell"><div class="rlab">' + esc(lab) + '</div>'
     + '<div class="rval' + (hot ? " hot" : "") + '">' + esc(val) + '</div>'
     + (sub ? '<div class="rsub">' + esc(sub) + '</div>' : "") + '</div>';
+}
+function leg(cls, label, desc){
+  return '<div class="lg"><span class="chip ' + cls + '">' + esc(label) + '</span>'
+    + '<p>' + esc(desc) + '</p></div>';
+}
+function stage(n, t, d, now){
+  return '<div class="stage' + (now ? " now" : "") + '"><div class="sn">' + esc(n) + '</div>'
+    + '<div class="st">' + esc(t) + '</div><div class="sd">' + esc(d) + '</div></div>';
 }
 // ---------- Supabase data, storage and realtime ----------
 function setSync(state, message, redraw){
