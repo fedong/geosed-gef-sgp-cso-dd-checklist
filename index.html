@@ -240,8 +240,9 @@ footer{margin-top:70px;padding-top:20px;border-top:1.5px solid var(--teal);
 (function(){
 "use strict";
 
-var DEFAULT_OWNERS = ["Unassigned","Fejaycris Pillodar","Elizabeth Albiento","Stephanie Albores",
-  "Rachel Joy Bodiongan","Kim Emissary Magarin","Jade Ministerio","Peter Suson","Rejen Albores"];
+var DEFAULT_OWNERS = ["Unassigned","Elizabeth Albiento","Fejaycris Pillodar","Hilly Ann Quiaoit",
+  "Jenar Suson","Kim Emissary Magarin","Melgie Alas","Peter Suson","Rachel Joy Bodiongan",
+  "Racrac Antequisa","Stephanie Albores"];
 var MAX_OWNERS = 40, MAX_NAME = 40;
 var USER_KEY = "geosed-dd-current-user-v1";
 
@@ -647,11 +648,9 @@ async function seedSharedData(rows, members){
     if(inserted.error) throw inserted.error;
     (inserted.data || []).forEach(applyRow);
   }
-  var names = {};
-  members.forEach(function(row){ if(row.name) names[row.name] = true; });
-  var missingNames = DEFAULT_OWNERS.filter(function(name){ return !names[name]; }).map(function(name){ return {name:name}; });
-  if(missingNames.length){
-    var added = await api.from("team_members").insert(missingNames).select();
+  if(!members.length){
+    var startingNames = DEFAULT_OWNERS.map(function(name){ return {name:name}; });
+    var added = await api.from("team_members").insert(startingNames).select();
     if(added.error) throw added.error;
     members = members.concat(added.data || []);
   }
