@@ -57,7 +57,7 @@ header.mast{padding:48px 0 0}
 /* ---- progress readout ---- */
 .readout{margin:34px 0 0;border-top:1.5px solid var(--teal);border-bottom:1px solid var(--hair);
   display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
-.rcell{padding:14px 18px 14px 0;border-right:1px solid var(--hair)}
+.rcell{padding:14px 18px;border-right:1px solid var(--hair)}
 .rcell:last-child{border-right:0}
 .rlab{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--muted)}
@@ -95,9 +95,10 @@ header.mast{padding:48px 0 0}
 .items{margin-top:22px;border-top:1px solid var(--hair)}
 .item-head,.item{display:grid;grid-template-columns:30px minmax(300px,1fr) 118px 178px 142px 170px;
   gap:14px;align-items:start}
-.item-head{padding:0 0 9px;border-bottom:1px solid var(--hair);font-family:"IBM Plex Mono",monospace;
+.item-head{padding:9px 0;border-bottom:1px solid var(--hair);font-family:"IBM Plex Mono",monospace;
   font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .item{padding:14px 0;border-bottom:1px solid var(--hair)}
+.item > .chip-cell,.item > .own-cell,.item > .updated-cell,.item > .updatedby-cell{align-self:center}
 .item.is-done .txt{color:var(--muted)}
 .item.is-done .txt strong{text-decoration:line-through;text-decoration-thickness:1px}
 .box{width:20px;height:20px;margin-top:2px;border:1.5px solid var(--muted);border-radius:3px;
