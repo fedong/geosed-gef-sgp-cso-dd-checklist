@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GeoSED · GEF SGP Due Diligence Checklist</title>
+<meta name="description" content="Everything GeoSED must satisfy to pass the GEF SGP CSO Challenge, grouped by when each thing is checked.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style id="css">
+
+:root{
+  --paper:#EDF0EE; --surface:#F7F9F7; --ink:#10201F; --muted:#5C6B67;
+  --hair:#C3D0CC; --teal:#0E4F53; --teal-soft:#DCE8E7;
+  --ochre:#A96A16; --ochre-soft:#F0E2CC;
+  --done:#2E6B4E; --done-soft:#D8E7DF;
+  --crit:#9C3B2C; --crit-soft:#F3DCD7;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B1211; --surface:#111B1A; --ink:#E2E9E6; --muted:#93A5A1;
+    --hair:#283937; --teal:#54B8BB; --teal-soft:#162726;
+    --ochre:#D69B3F; --ochre-soft:#33270F;
+    --done:#6BBE92; --done-soft:#15281F;
+    --crit:#E08573; --crit-soft:#2E1712;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B1211; --surface:#111B1A; --ink:#E2E9E6; --muted:#93A5A1;
+  --hair:#283937; --teal:#54B8BB; --teal-soft:#162726;
+  --ochre:#D69B3F; --ochre-soft:#33270F;
+  --done:#6BBE92; --done-soft:#15281F;
+  --crit:#E08573; --crit-soft:#2E1712;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 26px 90px}
+.col{max-width:66ch}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(2.2rem,5vw,3.3rem);
+   line-height:1.04;letter-spacing:-.02em;margin:12px 0 0;text-wrap:balance}
+h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.6rem;line-height:1.15;
+   letter-spacing:-.015em;margin:0 0 6px;text-wrap:balance}
+h3{font-size:.98rem;font-weight:600;margin:26px 0 8px}
+p{margin:0 0 14px}
+.kicker{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--teal);font-weight:500}
+header.mast{padding:48px 0 0}
+.standfirst{max-width:60ch;margin:16px 0 0;font-size:1.08rem;color:var(--muted);line-height:1.5}
+
+/* ---- progress readout ---- */
+.readout{margin:34px 0 0;border-top:1.5px solid var(--teal);border-bottom:1px solid var(--hair);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.rcell{padding:14px 18px 14px 0;border-right:1px solid var(--hair)}
+.rcell:last-child{border-right:0}
+.rlab{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted)}
+.rval{font-family:"IBM Plex Mono",monospace;font-size:1.35rem;font-weight:500;margin-top:4px;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.rval.hot{color:var(--ochre)}
+.rsub{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+/* ---- explainer ---- */
+.explain{background:var(--surface);border:1px solid var(--hair);padding:24px 26px;margin:34px 0 0}
+.explain p{max-width:64ch}
+.explain p:last-child{margin-bottom:0}
+
+/* ---- stage strip ---- */
+.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:22px}
+.stage{border-top:2px solid var(--teal);padding-top:12px}
+.stage .sn{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--teal);font-weight:600}
+.stage .st{font-weight:600;margin-top:5px;font-size:1rem}
+.stage .sd{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.45}
+.stage.now{border-top-color:var(--ochre)}
+.stage.now .sn{color:var(--ochre)}
+
+/* ---- gate ---- */
+.gate{margin-top:58px}
+.ghead{border-top:1.5px solid var(--teal);padding-top:16px}
+.gmeta{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:16px 26px;margin:14px 0 0}
+.gm{font-size:13px;color:var(--muted);line-height:1.45}
+.gm b{display:block;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:2px}
+.gnum{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);font-weight:500}
+
+/* ---- items ---- */
+.items{margin-top:22px;border-top:1px solid var(--hair)}
+.item{display:grid;grid-template-columns:30px 1fr 118px 178px;gap:14px;align-items:start;
+  padding:14px 0;border-bottom:1px solid var(--hair)}
+.item.is-done .txt{color:var(--muted)}
+.item.is-done .txt strong{text-decoration:line-through;text-decoration-thickness:1px}
+.box{width:20px;height:20px;margin-top:2px;border:1.5px solid var(--muted);border-radius:3px;
+  background:transparent;cursor:pointer;display:grid;place-items:center;padding:0;
+  color:transparent;font-size:13px;line-height:1;transition:none}
+.box:hover{border-color:var(--teal)}
+.box[aria-checked="true"]{background:var(--done);border-color:var(--done);color:var(--paper)}
+.box:disabled{cursor:default;opacity:.5}
+.box:focus-visible,select:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+.txt{font-size:14.5px;line-height:1.5}
+.txt strong{font-weight:600}
+.txt span{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.09em;
+  text-transform:uppercase;padding:4px 7px;border:1px solid transparent;border-radius:2px;
+  font-weight:600;white-space:nowrap}
+.chip.hard{background:var(--crit-soft);color:var(--crit)}
+.chip.flag{background:var(--ochre-soft);color:var(--ochre)}
+.chip.later{background:transparent;border-color:var(--hair);color:var(--muted)}
+.chip.closed{background:var(--done-soft);color:var(--done)}
+
+/* ---- chip legend ---- */
+.lgh{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--teal);font-weight:600;margin-top:26px;padding-top:22px;border-top:1px solid var(--hair)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(224px,1fr));gap:16px 26px;margin-top:14px}
+.lg .chip{margin-bottom:6px}
+.lg p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.45}
+
+/* ---- team ---- */
+.team{margin-top:46px;border-top:1.5px solid var(--teal);padding-top:16px}
+.teamp{font-size:13.5px;color:var(--muted);max-width:62ch;margin:6px 0 0}
+.chipsrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.mchip{display:inline-flex;align-items:center;gap:7px;font-size:13px;background:var(--surface);
+  border:1px solid var(--hair);border-radius:3px;padding:4px 7px 4px 11px}
+.mchip.fixed{padding-right:11px}
+.mchip button{border:0;background:none;color:var(--muted);cursor:pointer;font-size:15px;
+  line-height:1;padding:0 2px;border-radius:2px;font-family:inherit}
+.mchip button:hover{color:var(--crit)}
+.addrow{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}
+.addrow input{flex:0 1 262px;font-family:inherit;font-size:13.5px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--hair);border-radius:3px;padding:7px 10px}
+.addrow button{font-family:inherit;font-size:13px;font-weight:600;color:var(--paper);
+  background:var(--teal);border:0;border-radius:3px;padding:7px 15px;cursor:pointer}
+.addrow input:focus-visible,.addrow button:focus-visible,.mchip button:focus-visible{
+  outline:2px solid var(--ochre);outline-offset:2px}
+.err{margin-top:9px;font-size:12.5px;color:var(--crit)}
+.err[hidden]{display:none}
+select{width:100%;font-family:"IBM Plex Sans",sans-serif;font-size:12.5px;color:var(--ink);
+  background:var(--surface);border:1px solid var(--hair);border-radius:3px;padding:5px 6px}
+select:disabled{opacity:.55}
+
+/* ---- banner ---- */
+.banner{margin-top:26px;padding:12px 16px;background:var(--ochre-soft);color:var(--ochre);
+  font-size:13.5px;font-weight:500}
+.banner[hidden]{display:none}
+
+footer{margin-top:70px;padding-top:20px;border-top:1.5px solid var(--teal);
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:8px 26px;letter-spacing:.03em}
+
+@media (max-width:760px){
+  .item{grid-template-columns:26px 1fr;gap:10px}
+  .item .chip-cell,.item .own-cell{grid-column:2}
+  .own-cell select{max-width:220px}
+}
+@media print{
+  .addrow{display:none}
+  .box{border-color:#666}
+  select{border:0;background:none;appearance:none}
+  .banner,.explain{background:none}
+  .gate{break-inside:avoid}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---- standalone maintenance block ---- */
+.maint{margin-top:60px;padding-top:20px;border-top:1px solid var(--hair)}
+.mainth{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);font-weight:600}
+.maintp{font-size:12.5px;color:var(--muted);max-width:74ch;margin:8px 0 0;line-height:1.5}
+.maintp code{font-family:"IBM Plex Mono",monospace;font-size:.94em}
+.addrow.tools{margin-top:14px}
+.addrow button.ghost{background:transparent;color:var(--teal);border:1px solid var(--hair)}
+.toolmsg{align-self:center;font-size:12.5px;color:var(--muted)}
+@media print{ .maint{display:none} }
+</style>
+</head>
+<body>
+<div class="wrap"><div id="app"></div></div>
+<script id="state" type="application/json">{"items":{"g1a":{"done":true,"owner":"Rachel Joy Bodiongan"},"g1b":{"done":false,"owner":"Kim Emissary Magarin"},"g1c":{"done":false,"owner":"Kim Emissary Magarin"},"g1d":{"done":false,"owner":"Elizabeth Albiento"},"g1e":{"done":false,"owner":"Stephanie Albores"},"g1f":{"done":false,"owner":"Peter Suson"},"g1g":{"done":true,"owner":"Fejaycris Pillodar"},"g1h":{"done":true,"owner":"Unassigned"},"g1i":{"done":false,"owner":"Jade Ministerio"},"g1j":{"done":false,"owner":"Fejaycris Pillodar"},"g1k":{"done":false,"owner":"Jade Ministerio"},"g1l":{"done":false,"owner":"Rachel Joy Bodiongan"},"g1m":{"done":false,"owner":"Rachel Joy Bodiongan"},"g2a":{"done":false,"owner":"Elizabeth Albiento"},"g2b":{"done":false,"owner":"Peter Suson"},"g2c":{"done":false,"owner":"Peter Suson"},"g2d":{"done":false,"owner":"Elizabeth Albiento"},"g2e":{"done":false,"owner":"Elizabeth Albiento"},"g2f":{"done":false,"owner":"Peter Suson"},"g2g":{"done":false,"owner":"Elizabeth Albiento"},"g3a":{"done":false,"owner":"Elizabeth Albiento"},"g3b":{"done":false,"owner":"Peter Suson"},"g3c":{"done":false,"owner":"Elizabeth Albiento"},"g3d":{"done":false,"owner":"Peter Suson"},"g3e":{"done":false,"owner":"Peter Suson"},"g3f":{"done":false,"owner":"Elizabeth Albiento"},"g3g":{"done":false,"owner":"Peter Suson"},"g3h":{"done":false,"owner":"Elizabeth Albiento"},"g3i":{"done":false,"owner":"Jade Ministerio"},"g4a":{"done":false,"owner":"Kim Emissary Magarin"},"g4b":{"done":false,"owner":"Kim Emissary Magarin"},"g4c":{"done":false,"owner":"Kim Emissary Magarin"},"g4d":{"done":false,"owner":"Elizabeth Albiento"},"g4e":{"done":false,"owner":"Kim Emissary Magarin"},"g4f":{"done":false,"owner":"Kim Emissary Magarin"},"g4g":{"done":false,"owner":"Kim Emissary Magarin"},"g4h":{"done":false,"owner":"Kim Emissary Magarin"},"g4i":{"done":false,"owner":"Jade Ministerio"},"g4j":{"done":false,"owner":"Kim Emissary Magarin"},"g4k":{"done":false,"owner":"Fejaycris Pillodar"}},"updated":"2026-09-03T03:09:15.709Z"}</script>
+<script id="prog">
+
+(function(){
+"use strict";
+
+var LSKEY = "geosed-dd-checklist-v1";
+var DEFAULT_OWNERS = ["Unassigned","Fejaycris Pillodar","Elizabeth Albiento","Stephanie Albores",
+  "Rachel Joy Bodiongan","Kim Emissary Magarin","Jade Ministerio","Peter Suson","Rejen Albores"];
+var MAX_OWNERS = 40, MAX_NAME = 40;
+
+var GATES = [
+ { n:"Gate 1", name:"Eligibility check",
+   funder:"Called “Step 1: Eligibility check” in the Guidelines.",
+   who:"RTI International, the Lead Executing Agency",
+   when:"Immediately after the 15 September deadline, on the concept note as submitted.",
+   verdict:"Pass or fail, mechanical. “Proposals with missing or incorrect required information will not move forward.” Nothing can be supplied later.",
+   items:[
+    {id:"g1a", sev:"hard", pre:true, t:"CSO with its own legal entity",
+     s:"Satisfied — SEC non-stock, non-profit CN201623741, registered 11 October 2016.", o:"Rachel Joy Bodiongan"},
+    {id:"g1b", sev:"hard", t:"Bank account in the name of the organisation",
+     s:"Obtain written proof. An explicit eligibility requirement and not yet evidenced.", o:"Kim Emissary Magarin"},
+    {id:"g1c", sev:"hard", t:"Authorised to receive charitable contributions from foreign sources",
+     s:"Obtain written confirmation. Also an explicit eligibility requirement and not yet evidenced.", o:"Kim Emissary Magarin"},
+    {id:"g1d", sev:"hard", t:"GeoSED is directly responsible for implementing the project",
+     s:"Check the narrative reads that way throughout. MSU-IIT and the LGUs are partners; the grant cannot pass through us to them.", o:"Elizabeth Albiento"},
+    {id:"g1e", sev:"hard", t:"No conflict of interest across trustees, officers and unit heads",
+     s:"No personal, financial, political or other relationship bearing on this opportunity. Current IUCN or GEF employees and their immediate family are ineligible — confirm and minute it.", o:"Stephanie Albores"},
+    {id:"g1f", sev:"hard", t:"Confirm how many proposals GeoSED files as lead",
+     s:"Maximum two as lead partner; only one grant can be received. Decide before submission.", o:"Fejaycris Pillodar"},
+    {id:"g1g", sev:"hard", pre:true, t:"Project located in a GEF recipient country",
+     s:"Satisfied — Philippines, Asia-Pacific & Oceania region.", o:"Unassigned"},
+    {id:"g1h", sev:"hard", pre:true, t:"Aligned with at least one SGP 2.0 priority area",
+     s:"Satisfied — community-based management of threatened ecosystems and species.", o:"Unassigned"},
+    {id:"g1i", sev:"hard", t:"Upload: articles of incorporation, registration certificate or bylaws",
+     s:"Held. Confirm the file uploaded is the right one and legible.", o:"Jade Ministerio"},
+    {id:"g1j", sev:"hard", t:"Upload: location map",
+     s:"Google Earth image with visible geo-coordinates and intervention areas demarcated. To produce — and a GeoSED differentiator.", o:"Peter Suson"},
+    {id:"g1k", sev:"hard", t:"Upload: CVs of key project staff",
+     s:"To produce, for every person named in the application.", o:"Jade Ministerio"},
+    {id:"g1l", sev:"flag", t:"Board records match the statutory filings",
+     s:"The GIS on file is 2023 and lists the previous officers. File the updated GIS, or upload Resolution No. 1 alongside it.", o:"Rachel Joy Bodiongan"},
+    {id:"g1m", sev:"flag", t:"Resolution No. 1, Series of 2026 completed and signed",
+     s:"Term of office is blank and the signature blocks are unexecuted. It is meant to be furnished to banks and institutions.", o:"Rachel Joy Bodiongan"}
+   ]},
+
+ { n:"Gate 2", name:"ESMS exclusion list",
+   funder:"Section 8 of the Concept Note template: ten excluded activities, answered Y or N.",
+   who:"Declared by us; verified by IUCN before signature",
+   when:"Answered inside the concept note now; checked again during refinement.",
+   verdict:"A “Yes” means the activity cannot go ahead and must be redesigned. This is about the design of the project, not paperwork.",
+   items:[
+    {id:"g2a", sev:"hard", t:"#2 — A credible FPIC pathway exists for the Higaonon ancestral domain",
+     s:"Work where Free, Prior and Informed Consent cannot be established is excluded outright. Open the NCIP conversation before submission, not after award. The single largest exclusion risk in this project.", o:"Elizabeth Albiento"},
+    {id:"g2b", sev:"hard", t:"#5 — No armed personnel, anywhere in the design",
+     s:"Guardian teams are defined as monitoring and custodianship. Never described as patrols, rangers or enforcement.", o:"Peter Suson"},
+    {id:"g2c", sev:"hard", t:"#6 — No involuntary resettlement or forced eviction",
+     s:"Includes customary and ancestral domains. Riparian buffer and management agreements must be voluntary and negotiated.", o:"Peter Suson"},
+    {id:"g2d", sev:"hard", t:"#7 — No conversion or degradation of High Conservation Value areas",
+     s:"Confirm no activity alters potentially important biodiversity or critical ecosystems.", o:"Elizabeth Albiento"},
+    {id:"g2e", sev:"hard", t:"#8 — No unsustainable harvesting; nothing CITES-regulated",
+     s:"Covers wildlife, plants, timber and non-timber forest products.", o:"Elizabeth Albiento"},
+    {id:"g2f", sev:"hard", t:"#10 — No alien invasive species",
+     s:"Restoration draws only on endemic species suitability mapping. This is why that method is in the design — protect it in procurement and in the nurseries.", o:"Peter Suson"},
+    {id:"g2g", sev:"hard", t:"Items #1, #3, #4 and #9 reviewed and answered No",
+     s:"Illegal activities; IPs in voluntary isolation; forced or harmful child labour; highly hazardous chemicals or pesticides.", o:"Elizabeth Albiento"}
+   ]},
+
+ { n:"Gate 3", name:"Environmental and social screening",
+   funder:"The Preliminary Environmental and Social Screening Questionnaire, also Section 8.",
+   who:"Declared by us; reviewed by IUCN",
+   when:"Answered in the concept note; expanded in the full proposal; settled during refinement.",
+   verdict:"A “Yes” does not disqualify — it flags an area for further review. Answering honestly with a named mitigation is stronger than answering No.",
+   items:[
+    {id:"g3a", sev:"flag", t:"Gender and gender-based violence",
+     s:"Inclusion measures; monitoring duties must not land on women as unpaid labour; a code of conduct that is actually monitored.", o:"Elizabeth Albiento"},
+    {id:"g3b", sev:"flag", t:"Vulnerable groups and elite capture",
+     s:"Written, transparent beneficiary selection criteria. The questionnaire names elite capture explicitly.", o:"Peter Suson"},
+    {id:"g3c", sev:"flag", t:"Human rights and history of conflict in the project area",
+     s:"The questionnaire asks directly whether there is a history of conflict. Answer yes for Lanao, with the assessment and a confidential complaints channel.", o:"Elizabeth Albiento"},
+    {id:"g3d", sev:"flag", t:"Community health, safety and security",
+     s:"Written field safety protocol; weather stand-down rules; no law-enforcement role for guardian teams.", o:"Peter Suson"},
+    {id:"g3e", sev:"flag", t:"Labour and working conditions for guardian teams",
+     s:"The questionnaire names “unclear terms for community volunteers” and “confrontations involving community patrollers” as risk scenarios. Our design sits exactly there — write the terms of engagement and the OHS provisions.", o:"Peter Suson"},
+    {id:"g3f", sev:"flag", t:"Climate change sensitivity of outputs",
+     s:"Installations and plantings designed for extreme rainfall; planting phased across two wet seasons.", o:"Elizabeth Albiento"},
+    {id:"g3g", sev:"flag", t:"Standard 1 — access restrictions to natural resources",
+     s:"Riparian protection could restrict access. Keep agreements voluntary, with livelihood substitution.", o:"Peter Suson"},
+    {id:"g3h", sev:"flag", t:"Standard 2 — Indigenous Peoples",
+     s:"Declare the ancestral domain overlap and record that legitimate representatives have been consulted. No commercialisation of traditional knowledge without FPIC.", o:"Elizabeth Albiento"},
+    {id:"g3i", sev:"flag", t:"Grievance mechanism",
+     s:"Accessible in local languages, with a confidential route. The questionnaire asks whether people raising concerns could face reprisals.", o:"Jade Ministerio"}
+   ]},
+
+ { n:"Gate 4", name:"Financial, procurement and contractual",
+   funder:"The eligible-cost rules, plus “Section 9: Due diligence” in the Full Proposal — whose detailed guidance has not been published yet.",
+   who:"IUCN, before the grant agreement is signed",
+   when:"Shapes the budget we submit now; actually tested in the technical and ESMS refinement, which takes one to five months after selection.",
+   verdict:"Not scored — but nothing is signed until it is satisfied. This is where organisational scale gets examined.",
+   items:[
+    {id:"g4a", sev:"later", t:"Read the IUCN Procurement Policy and Procedure for Grant Recipients",
+     s:"On the portal's Useful Documents page. Every cost must be incurred in line with it. We have not read it yet.", o:"Kim Emissary Magarin"},
+    {id:"g4b", sev:"later", t:"Three supplier quotations for anything over USD 20,000",
+     s:"The sensor package crosses this. Quotations must come from different suppliers and be kept with the financial records.", o:"Kim Emissary Magarin"},
+    {id:"g4c", sev:"hard", t:"Indirect costs at 7% of DIRECT costs, not of the grant total",
+     s:"On USD 187,000 of direct costs the cap is USD 13,090. Taking 7% of the grant total breaches the cap on a line reviewers check.", o:"Kim Emissary Magarin"},
+    {id:"g4d", sev:"hard", t:"No sub-grants or financial support to third parties",
+     s:"Ineligible. Community support is delivered as goods, services, training and equipment. Check the narrative as well as the budget — nothing may read as a cash transfer to a people's organisation.", o:"Elizabeth Albiento"},
+    {id:"g4e", sev:"hard", t:"No costs promised or incurred before the grant agreement is signed",
+     s:"Pre-award costs are not eligible. Do not commit partners to any spending.", o:"Kim Emissary Magarin"},
+    {id:"g4f", sev:"later", t:"Accounting able to produce project-level records",
+     s:"Costs must be “actually incurred by and recorded in the accounts of the beneficiary” and be “identifiable and verifiable”. Consider funding an accounting system and part-time bookkeeper from the personnel line.", o:"Kim Emissary Magarin"},
+    {id:"g4g", sev:"flag", t:"2024 and 2025 audited financial statements obtained",
+     s:"The most recent on file is 2023, which understates the organisation as it stands today.", o:"Kim Emissary Magarin"},
+    {id:"g4h", sev:"flag", t:"Bank certification of the current balance obtained",
+     s:"Documents the 2026 position rather than asserting it.", o:"Kim Emissary Magarin"},
+    {id:"g4i", sev:"later", t:"Tax and social legislation compliance current",
+     s:"BIR, SSS, PhilHealth and Pag-IBIG obligations for any staff the project hires. Costs must be compliant with applicable tax and social legislation.", o:"Jade Ministerio"},
+    {id:"g4j", sev:"hard", t:"Ineligible costs excluded from the budget",
+     s:"Debts and interest; provisions for losses or future liabilities; purchase of land or buildings; reckless or excessive spending.", o:"Kim Emissary Magarin"},
+    {id:"g4k", sev:"flag", t:"Co-financing commitments in writing",
+     s:"Not required, but strongly encouraged and it strengthens the proposal. Iligan City, MSU-IIT, DENR, GeoSED in kind.", o:"Fejaycris Pillodar"}
+   ]}
+];
+
+var SEV = {
+  hard:{label:"Hard fail", cls:"hard"},
+  flag:{label:"Flag & fix", cls:"flag"},
+  later:{label:"Before signing", cls:"later"}
+};
+var CLOSED = {label:"Already met", cls:"closed"};
+
+var ALL = [];
+GATES.forEach(function(g){ g.items.forEach(function(it){ ALL.push(it); }); });
+
+// ---------- state ----------
+var STATE;
+try { STATE = JSON.parse(document.getElementById("state").textContent) || {}; }
+catch(e){ STATE = {}; }
+try {
+  var LS = localStorage.getItem(LSKEY);
+  if(LS){ var saved = JSON.parse(LS); if(saved && saved.items) STATE = saved; }
+} catch(e){}
+if(!STATE.items) STATE.items = {};
+ALL.forEach(function(it){
+  var rec = STATE.items[it.id];
+  if(!rec || typeof rec !== "object") STATE.items[it.id] = {done: !!it.pre, owner: it.o};
+  else {
+    if(typeof rec.done !== "boolean") rec.done = !!it.pre;
+    if(typeof rec.owner !== "string" || !rec.owner) rec.owner = it.o;
+  }
+});
+
+// the roster lives in shared state so the team can extend it
+if(!Array.isArray(STATE.owners) || !STATE.owners.length) STATE.owners = DEFAULT_OWNERS.slice();
+STATE.owners = STATE.owners.filter(function(o, i, a){
+  return typeof o === "string" && o.trim() && a.indexOf(o) === i;
+});
+if(STATE.owners.indexOf("Unassigned") < 0) STATE.owners.unshift("Unassigned");
+ALL.forEach(function(it){                 // never orphan an existing assignment
+  var o = STATE.items[it.id].owner;
+  if(o && STATE.owners.indexOf(o) < 0) STATE.owners.push(o);
+});
+
+var canWrite = true;   // local edits are always allowed
+var api = null;
+
+// ---------- render ----------
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function counts(){
+  var t=0,d=0,hard=0,hardLeft=0;
+  ALL.forEach(function(it){
+    t++; var r=STATE.items[it.id];
+    if(r.done) d++;
+    if(it.sev==="hard"){ hard++; if(!r.done) hardLeft++; }
+  });
+  return {total:t, done:d, hard:hard, hardLeft:hardLeft};
+}
+function stamp(){
+  if(!STATE.updated) return "not yet updated";
+  var dt = new Date(STATE.updated);
+  if(isNaN(dt)) return "not yet updated";
+  return dt.toISOString().slice(0,16).replace("T"," ") + " UTC";
+}
+
+function render(){
+  var c = counts();
+  var h = "";
+
+  h += '<header class="mast">'
+    +  '<div class="kicker">GEF SGP CSO Challenge · GeoSED, Inc.</div>'
+    +  '<h1>Due diligence checklist</h1>'
+    +  '<p class="standfirst">Everything that has to be true for GeoSED to pass, grouped by the moment it is checked. Tick items as they are closed.</p>'
+    +  '</header>';
+
+  h += '<div class="readout">'
+    +  cell("Items closed", c.done + " / " + c.total, "", false)
+    +  cell("Hard-fail items open", c.hardLeft + " / " + c.hard, "these end the bid or force a redesign", c.hardLeft>0)
+    +  cell("Concept note due", "15 Sep 2026", "confirm on the portal", true)
+    +  cell("Last updated", stamp(), "", false)
+    +  '</div>';
+
+  // standalone build: no top banner
+
+  h += '<div class="explain"><div class="col">'
+    +  '<h2>What “gate” means here</h2>'
+    +  '<p><strong>Gate is our word, not the funder’s.</strong> The call does not use it. We use it because the four things below are checked by different people, at different moments, against different standards — and failing one does not mean the same thing as failing another. Each gate below names the funder’s own term for it.</p>'
+    +  '<p>Two of the four are decided on the concept note we submit this month. The other two are largely decided later, but the answers we give now commit us, so they belong on this list today.</p>'
+    +  '</div>'
+    +  '<div class="stages">'
+    +  stage("Stage 1 · now", "Concept note", "Submit by 15 September. Gates 1, 2 and 3 are answered here. Gate 4 shapes the budget we submit.", true)
+    +  stage("Stage 2 · if invited", "Full proposal", "Top 20–25 concept notes are invited. Deeper versions of all four gates, plus Section 9, Due diligence — guidance not yet published.", false)
+    +  stage("Stage 3 · if selected", "Before signature", "Technical and ESMS refinement, one to five months. Gate 4 is tested here. Nothing is signed until it clears.", false)
+    +  '</div>'
+    +  '<div class="lgh">What the chips mean</div>'
+    +  '<div class="legend">'
+    +  leg("hard","Hard fail","If this is not true when we submit, the bid is rejected outright or the activity has to be redesigned. There is no chance to fix it later.")
+    +  leg("flag","Flag & fix","Not fatal by itself, but it weakens the application or creates a problem at due diligence. Close it before we submit.")
+    +  leg("later","Before signing","Not needed for the concept note. Must be satisfied during the refinement stage, before the grant agreement is signed.")
+    +  leg("closed","Already met","Ticked. The requirement is satisfied and we can evidence it. Untick to see what was at stake.")
+    +  '</div></div>';
+
+  h += '<section class="team">'
+    +  '<h2>Team</h2>'
+    +  '<p class="teamp">Anyone on this list can be assigned an item. Add colleagues as they join the bid; removing someone returns their items to Unassigned.</p>'
+    +  '<div class="chipsrow">'
+    +  STATE.owners.map(function(o){
+         if(o === "Unassigned") return '<span class="mchip fixed">' + esc(o) + '</span>';
+         return '<span class="mchip">' + esc(o)
+           + (canWrite ? '<button type="button" data-rm="' + esc(o) + '" aria-label="Remove ' + esc(o) + '">×</button>' : '')
+           + '</span>';
+       }).join("")
+    +  '</div>'
+    +  (canWrite
+        ? '<div class="addrow"><input id="newown" type="text" maxlength="' + MAX_NAME
+          + '" placeholder="Name of new member" autocomplete="off">'
+          + '<button id="addown" type="button">Add member</button></div>'
+        : '')
+    +  '<div class="err" id="ownerr" hidden></div>'
+    +  '</section>';
+
+  GATES.forEach(function(g, gi){
+    var gc = g.items.filter(function(it){ return STATE.items[it.id].done; }).length;
+    h += '<section class="gate">'
+      +  '<div class="ghead">'
+      +  '<div class="gnum">' + esc(g.n) + ' · ' + gc + ' of ' + g.items.length + ' closed</div>'
+      +  '<h2>' + esc(g.name) + '</h2>'
+      +  '<div class="gmeta">'
+      +  '<div class="gm"><b>The funder’s term</b>' + esc(g.funder) + '</div>'
+      +  '<div class="gm"><b>Who checks</b>' + esc(g.who) + '</div>'
+      +  '<div class="gm"><b>When</b>' + esc(g.when) + '</div>'
+      +  '<div class="gm"><b>What failing means</b>' + esc(g.verdict) + '</div>'
+      +  '</div></div>'
+      +  '<div class="items">';
+
+    g.items.forEach(function(it){
+      var r = STATE.items[it.id];
+      var sv = r.done ? CLOSED : SEV[it.sev];
+      h += '<div class="item' + (r.done ? " is-done" : "") + '">'
+        +  '<button class="box" type="button" data-id="' + esc(it.id) + '" role="checkbox" '
+        +  'aria-checked="' + (r.done ? "true" : "false") + '" '
+        +  'aria-label="' + esc(it.t) + '"' + (canWrite ? "" : " disabled") + '>✓</button>'
+        +  '<div class="txt"><strong>' + esc(it.t) + '</strong><span>' + esc(it.s) + '</span></div>'
+        +  '<div class="chip-cell"><span class="chip ' + sv.cls + '">' + esc(sv.label) + '</span></div>'
+        +  '<div class="own-cell"><select data-owner="' + esc(it.id) + '"' + (canWrite ? "" : " disabled") + '>'
+        +  STATE.owners.map(function(o){
+             return '<option value="' + esc(o) + '"' + (o === r.owner ? " selected" : "") + '>' + esc(o) + '</option>';
+           }).join("")
+        +  '</select></div>'
+        +  '</div>';
+    });
+    h += '</div></section>';
+  });
+
+  h += '<section class="maint">'
+    +  '<div class="mainth">Maintaining this page</div>'
+    +  '<p class="maintp">Ticks are stored in your own browser. To publish the current position so that everyone '
+    +  'sees it, the checklist owner uses <strong>Download updated page</strong> and replaces <code>index.html</code> '
+    +  'in the repository; everyone else should then use <strong>Reset my ticks</strong> so their local marks do not '
+    +  'sit over the new baseline.</p>'
+    +  '<div class="addrow tools">'
+    +  '<button id="downloadpage" type="button">Download updated page</button>'
+    +  '<button id="copystat" type="button" class="ghost">Copy status</button>'
+    +  '<button id="resetlocal" type="button" class="ghost">Reset my ticks</button>'
+    +  '<span id="copymsg" class="toolmsg"></span>'
+    +  '</div></section>';
+
+  h += '<footer>'
+    +  '<span>GeoSED, Inc. · Bantay Mandulog</span>'
+    +  '<span>Sources: Call for Proposals · Guidelines for Applicants · Concept Note template, Section 8</span>'
+    +  '</footer>';
+
+  document.getElementById("app").innerHTML = h;
+  var ro = document.getElementById("ro");
+  if(ro) ro.hidden = canWrite;
+}
+
+function cell(lab, val, sub, hot){
+  return '<div class="rcell"><div class="rlab">' + esc(lab) + '</div>'
+    + '<div class="rval' + (hot ? " hot" : "") + '">' + esc(val) + '</div>'
+    + (sub ? '<div class="rsub">' + esc(sub) + '</div>' : "") + '</div>';
+}
+function leg(cls, label, desc){
+  return '<div class="lg"><span class="chip ' + cls + '">' + esc(label) + '</span>'
+    + '<p>' + esc(desc) + '</p></div>';
+}
+function stage(n, t, d, now){
+  return '<div class="stage' + (now ? " now" : "") + '"><div class="sn">' + esc(n) + '</div>'
+    + '<div class="st">' + esc(t) + '</div><div class="sd">' + esc(d) + '</div></div>';
+}
+
+// ---------- export this page as a committable file ----------
+// Rebuilds the whole standalone document with the current ticks baked in, so a
+// maintainer can replace index.html in the repository and make this state the
+// baseline everyone sees.
+function fullPage(){
+  var progSrc = document.getElementById("prog").textContent;
+  var json = JSON.stringify(STATE).replace(/</g, "\\u003c");
+  var open = "<scr" + "ipt", close = "</scr" + "ipt>";
+  return '<!doctype html>\n<html lang="en">\n<head>' + document.head.innerHTML + '</head>\n<body>\n'
+    + '<div class="wrap"><div id="app"></div></div>\n'
+    + open + ' id="state" type="application/json">' + json + close + '\n'
+    + open + ' id="prog">\n' + progSrc.replace(/<\/script>/gi, "<\\/script>") + '\n' + close + '\n'
+    + '</body>\n</html>\n';
+}
+function downloadPage(){
+  var msg = document.getElementById("copymsg");
+  try {
+    var blob = new Blob([fullPage()], {type: "text/html;charset=utf-8"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "index.html";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); document.body.removeChild(a); }, 0);
+    if(msg) msg.textContent = "Downloaded. Replace index.html in the repository to publish this to the team.";
+  } catch(e){
+    if(msg) msg.textContent = "Could not build the file in this browser.";
+  }
+}
+
+function save(){
+  STATE.updated = new Date().toISOString();
+  try { localStorage.setItem(LSKEY, JSON.stringify(STATE)); } catch(e){}
+  var vals = document.querySelectorAll(".rcell .rval");
+  if(vals && vals[3]) vals[3].textContent = stamp();
+}
+
+// a plain-text summary someone can paste into the group chat
+function statusText(){
+  var c = counts(), lines = [];
+  lines.push("GeoSED · GEF SGP due diligence — " + c.done + " of " + c.total + " closed, "
+    + c.hardLeft + " of " + c.hard + " hard-fail items still open");
+  lines.push("As at " + stamp());
+  GATES.forEach(function(g){
+    var open = g.items.filter(function(it){ return !STATE.items[it.id].done; });
+    lines.push("");
+    lines.push(g.n + " · " + g.name + " — " + (g.items.length - open.length) + " of " + g.items.length + " closed");
+    open.forEach(function(it){
+      lines.push("  [ ] " + it.t + "  (" + STATE.items[it.id].owner + ")");
+    });
+    if(!open.length) lines.push("  all closed");
+  });
+  return lines.join("\n");
+}
+function copyStatus(){
+  var msg = document.getElementById("copymsg");
+  var text = statusText();
+  function done(ok){ if(msg){ msg.textContent = ok ? "Copied." : "Could not copy — select the page text instead."; } }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(false); });
+    return;
+  }
+  try {
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.top = "-1000px";
+    document.body.appendChild(ta); ta.select();
+    done(document.execCommand("copy"));
+    document.body.removeChild(ta);
+  } catch(e){ done(false); }
+}
+
+// ---------- events ----------
+document.getElementById("app").addEventListener("click", function(e){
+  var btn = e.target.closest ? e.target.closest(".box") : null;
+  if(!btn || btn.disabled) return;
+  var id = btn.getAttribute("data-id");
+  if(!STATE.items[id]) return;
+  STATE.items[id].done = !STATE.items[id].done;
+  render();
+  save();
+});
+function ownerError(msg){
+  var el = document.getElementById("ownerr");
+  if(!el) return;
+  el.textContent = msg || "";
+  el.hidden = !msg;
+}
+function addOwner(){
+  var input = document.getElementById("newown");
+  if(!input) return;
+  var name = input.value.replace(/\s+/g, " ").trim();
+  if(!name) return;
+  if(name.length > MAX_NAME){ ownerError("Keep the name to " + MAX_NAME + " characters or fewer."); return; }
+  var clash = null;
+  STATE.owners.forEach(function(o){ if(o.toLowerCase() === name.toLowerCase()) clash = o; });
+  if(clash){ ownerError(clash + " is already on the list."); return; }
+  if(STATE.owners.length >= MAX_OWNERS){ ownerError("The list is full at " + MAX_OWNERS + " members."); return; }
+  STATE.owners.push(name);
+  render();
+  ownerError("");
+  var again = document.getElementById("newown");
+  if(again) again.focus();
+  save();
+}
+document.getElementById("app").addEventListener("click", function(e){
+  var t = e.target;
+  if(t && t.id === "addown"){ addOwner(); return; }
+  if(t && t.id === "downloadpage"){ downloadPage(); return; }
+  if(t && t.id === "copystat"){ copyStatus(); return; }
+  if(t && t.id === "resetlocal"){
+    try { localStorage.removeItem(LSKEY); } catch(e2){}
+    location.reload();
+    return;
+  }
+  var rm = t && t.closest ? t.closest("[data-rm]") : null;
+  if(!rm || !canWrite) return;
+  var name = rm.getAttribute("data-rm");
+  var i = STATE.owners.indexOf(name);
+  if(i < 0 || name === "Unassigned") return;
+  STATE.owners.splice(i, 1);
+  ALL.forEach(function(it){
+    if(STATE.items[it.id].owner === name) STATE.items[it.id].owner = "Unassigned";
+  });
+  render();
+  ownerError("");
+  save();
+});
+document.getElementById("app").addEventListener("keydown", function(e){
+  if(e.key === "Enter" && e.target && e.target.id === "newown"){ e.preventDefault(); addOwner(); }
+});
+document.getElementById("app").addEventListener("change", function(e){
+  var sel = e.target;
+  if(!sel || !sel.getAttribute || !sel.getAttribute("data-owner")) return;
+  var id = sel.getAttribute("data-owner");
+  if(!STATE.items[id]) return;
+  STATE.items[id].owner = sel.value;
+  render();
+  save();
+});
+
+render();
+})();
+
+</script>
+</body>
+</html>
