@@ -110,11 +110,6 @@ header.mast{padding:48px 0 0}
 .txt{font-size:14.5px;line-height:1.5}
 .txt strong{font-weight:600}
 .txt span{display:block;color:var(--muted);font-size:13px;margin-top:3px}
-.txt .reqtype{display:inline-block;margin:6px 8px 0 0;font-family:"IBM Plex Mono",monospace;
-  font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
-.txt .reqtype.hard{color:var(--crit)}
-.txt .reqtype.flag{color:var(--ochre)}
-.txt .reqtype.later{color:var(--teal)}
 .txt .detail{margin-top:4px}
 .chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.09em;
   text-transform:uppercase;padding:4px 7px;border:1px solid transparent;border-radius:2px;
@@ -352,13 +347,12 @@ var GATES = [
    ]}
 ];
 
-var AVAILABLE = {label:"Available", cls:"closed"};
-var NOT_AVAILABLE = {label:"Not available", cls:"hard"};
-var REQUIREMENT_TYPE = {
+var SEV = {
   hard:{label:"Hard fail", cls:"hard"},
   flag:{label:"Flag & fix", cls:"flag"},
   later:{label:"Before signing", cls:"later"}
 };
+var CLOSED = {label:"Already met", cls:"closed"};
 
 var ALL = [];
 GATES.forEach(function(g){ g.items.forEach(function(it){ ALL.push(it); }); });
@@ -457,12 +451,12 @@ function render(){
     +  stage("Stage 2 · if invited", "Full proposal", "Top 20–25 concept notes are invited. Deeper versions of all four gates, plus Section 9, Due diligence — guidance not yet published.", false)
     +  stage("Stage 3 · if selected", "Before signature", "Technical and ESMS refinement, one to five months. Gate 4 is tested here. Nothing is signed until it clears.", false)
     +  '</div>'
-    +  '<div class="lgh">Requirement types and shared status</div>'
+    +  '<div class="lgh">What the status chips mean</div>'
     +  '<div class="legend">'
     +  leg("hard","Hard fail","If this is not true when we submit, the bid is rejected outright or the activity has to be redesigned.")
     +  leg("flag","Flag & fix","Not fatal by itself, but it weakens the application or creates a due-diligence problem.")
     +  leg("later","Before signing","Not needed for the concept note, but must be satisfied before the grant agreement is signed.")
-    +  leg("closed","Available","The team has confirmed that the requirement or supporting information is available.")
+    +  leg("closed","Already met","Ticked. The requirement is satisfied and the team can evidence it. Untick it if that is no longer true.")
     +  '</div></div>';
 
   h += '<section class="team">'
@@ -504,14 +498,12 @@ function render(){
 
     g.items.forEach(function(it){
       var r = STATE.items[it.id];
-      var sv = r.done ? AVAILABLE : NOT_AVAILABLE;
-      var rt = REQUIREMENT_TYPE[it.sev];
+      var sv = r.done ? CLOSED : SEV[it.sev];
       h += '<div class="item' + (r.done ? " is-done" : "") + '">'
         +  '<button class="box" type="button" data-id="' + esc(it.id) + '" role="checkbox" '
         +  'aria-checked="' + (r.done ? "true" : "false") + '" '
         +  'aria-label="' + esc(it.t) + '"' + (canWrite ? "" : " disabled") + '>✓</button>'
         +  '<div class="txt"><strong>' + esc(it.t) + '</strong>'
-        +  '<span class="reqtype ' + esc(rt.cls) + '">' + esc(rt.label) + '</span>'
         +  '<span class="detail">' + esc(it.s) + '</span></div>'
         +  '<div class="chip-cell"><span class="chip ' + sv.cls + '">' + esc(sv.label) + '</span></div>'
         +  '<div class="own-cell"><select data-owner="' + esc(it.id) + '"' + (canWrite ? "" : " disabled") + '>'
@@ -674,7 +666,8 @@ async function initSupabase(){
 // a plain-text summary someone can paste into the group chat
 function statusText(){
   var c = counts(), lines = [];
-  lines.push("GeoSED · GEF SGP due diligence — " + c.done + " of " + c.total + " items available");
+  lines.push("GeoSED · GEF SGP due diligence — " + c.done + " of " + c.total + " items closed, "
+    + c.hardLeft + " of " + c.hard + " hard-fail items still open");
   lines.push("As at " + stamp());
   GATES.forEach(function(g){
     var open = g.items.filter(function(it){ return !STATE.items[it.id].done; });
